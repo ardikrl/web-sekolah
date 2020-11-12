@@ -1,0 +1,78 @@
+{% extends 'blog/web-admin/admin-base.html' %}
+
+{% block admin-content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+    <h1 class="h2">Guru</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group mr-2">
+            <a href="{% url 'admin_guru_add' %}" class="btn btn-sm btn-primary">Tambah Guru</a>
+        </div>
+    </div>
+</div>
+<div class="btn-group dropright mb-2">
+    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+        aria-expanded="false">
+        Filter By
+    </button>
+    <div class="dropdown-menu">
+        <a class="dropdown-item{% if request.GET.filter == None %} active{% endif %}" href="{% url 'admin_guru' %}">Aktif</a>
+        <a class="dropdown-item{% if request.GET.filter == 'tetap' %} active{% endif %}" href="?filter=tetap">Tetap</a>
+        <a class="dropdown-item{% if request.GET.filter == 'lepas' %} active{% endif %}" href="?filter=lepas">Lepas</a>
+        <a class="dropdown-item{% if request.GET.filter == 'keluar' %} active{% endif %}" href="?filter=keluar">Keluar</a>
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>NIP</th>
+                <th class="text-center">Nama Guru</th>
+                <th class="text-center">Tanggal Lahir</th>
+                <th class="text-center">Status Guru</th>
+                <th class="text-right">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for guru in list_guru %}
+            <tr>
+                <td>{% if guru.nik %}{{ guru.nik }}{% else %}-{% endif %}</td>
+                <td class="text-center">{{ guru }}</td>
+                <td class="text-center">{% if guru.tanggal_lahir %}{{ guru.tanggal_lahir }}{% else %}-{% endif %}</td>
+                <td class="text-center">{% if guru.status_guru %}{{ guru.status_guru|title }}{% else %}-{% endif %}</td>
+                <td>
+                    <button class="float-right ml-1 btn btn-sm btn-danger" data-toggle="modal"
+                        data-target="#hapusGuru{{ guru.id }}">Delete</button>
+                    <!-- Delete Modal -->
+                    <div class="modal fade" id="hapusGuru{{ guru.id }}" tabindex="-1" role="dialog"
+                        aria-labelledby="hapusGuru{{ guru.id }}Title" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <form method="POST" action="{% url 'admin_guru_hapus' guru_id=guru.id %}">
+                                    {% csrf_token %}
+                                    <div class="modal-body">
+                                        <p class="text-center pb-2 h6">Hapus Guru</p>
+                                        <hr>
+                                        <p>Kamu yakin ingin menghapus guru ini?</p>
+                                        <p><strong>{{ guru.user.get_full_name|title }}</strong></p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Batal</button>
+                                        <input type="submit" class="btn btn-danger" name="confirm-delete"
+                                            value="Hapus Guru">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{% url 'admin_guru_update' guru_id=guru.id %}"
+                        class="float-right btn btn-sm btn-success">Edit</a>
+                    <a href="{% url 'admin_guru_detail' guru_id=guru.id %}"
+                        class="float-right mr-1 btn btn-sm btn-warning">Lihat Rincian</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock admin-content %}

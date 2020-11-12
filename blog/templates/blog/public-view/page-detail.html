@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block custom-css %}
+    <style>
+        .recent-news {
+            width: 100%!important;
+        }
+
+        .float-center {
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+    </style>
+{% endblock custom-css %}
+
+{% block home-page-items %}{% endblock home-page-items %}
+
+{% block left-content %}
+    <div id="breadcrumb">
+        <div class="container">
+            <div id="crumbs" xmlns:v="http://rdf.data-vocabulary.org/#">
+                <span typeof="v:Breadcrumb">
+                    <a rel="v:url" property="v:title" href="{% url 'home_page' %}">Beranda</a>
+                </span> &gt;
+                <span class="current">{{ page.title }}</span>
+            </div>
+        </div><!-- .container -->
+    </div>
+    <h1>{{ page.title }}</h1>
+    <div style="margin-bottom:20px;font-size:small;color:#8f8f8f;">
+        <div>{{ page.created_at|date:"l, d F Y G:i" }}, {{ page.post_views }} views</div>
+        <div>Editor: {{ page.author.get_full_name }}</div>
+    </div>
+    {% if page.post_image %}<img src="{{ page.post_image.url }}" alt="{{ page.title }}">{% endif %}
+    <div style="border-bottom:1px solid #ececec;margin-top:15px;margin-bottom:5px;"></div>
+    <div class="posting-body">
+        {{ page.body|safe }}
+    </div>
+{% endblock left-content %}
+
+
+{% block right-content %}{% endblock right-content %}
+
+{% block left-footer %}{% endblock left-footer %}

@@ -1,0 +1,16 @@
+{% extends 'blog/web-admin/admin-base.html' %}
+{% load crispy_forms_tags %}
+
+{% block admin-content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+    <h1 class="h2">Tambah Berita</h1>
+</div>
+<div class="mb-5">
+    <form method="POST" action="{% url 'admin_berita_add' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.media }}
+        {{ form|crispy }}
+        <input class="btn btn-primary" type="submit" value="Kirim Berita" />
+    </form>
+</div>
+{% endblock admin-content %}

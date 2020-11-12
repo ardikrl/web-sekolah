@@ -1,0 +1,464 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pondok Pesantren Terpadu Bunayya &#8211; SMPIT BUNAYYA</title>
+
+    <link rel='stylesheet' href='/static/web-sekolah/css/style.css' type='text/css' media='all' />
+    <link href="https://d1b89zc79exfxt.cloudfront.net/css/fontawesome.css" rel="stylesheet" />
+    <script type='text/javascript' src='/static/web-sekolah/js/jquery.js'></script>
+    {% block custom-css %}{% endblock custom-css %}
+</head>
+
+<body
+    class="home page-template-default page page-id-2 wp-custom-logo group-blog site-layout-fluid global-layout-no-sidebar home-content-not-enabled">
+    <div id="page" class="container hfeed site">
+        <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+        <div id="tophead">
+            <div class="container">
+                <div id="quick-contact">
+                    <ul>
+                        </li>
+                        <li>
+                            <i class="fa fa-phone" style="margin-right: 5px;"></i>
+                            <a href="tel:+6280989999">0809 89999</a>
+                        </li>
+                        <li>
+                            <i class="fa fa-envelope" style="margin-right: 5px;"></i>
+                            <a href="mailto:smpitbunayya.gayolues@gmail.com">smpitbunayya.gayolues@gmail.com</a>
+                        </li>
+
+                        <li>
+                            <i class="fa fa-street-view" style="margin-right: 5px;"></i>
+                            <a href="#">Jl. Kutecane-Blangkejeren, Gayo Lues, Aceh </a>
+                        </li>
+
+                        <li>
+                            <i class="fa fa-road" style="margin-right: 5px;"></i>
+                            <a href="#">Negeri 1001 Hafidz</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div> <!-- .container -->
+        </div><!--  #tophead -->
+
+        <header id="masthead" class="site-header" role="banner">
+            <div class="container">
+                <div class="site-branding">
+                    <a href="{% url 'home_page' %}" class="custom-logo-link" rel="home" itemprop="url">
+                        <img width="190" height="180" src="/static/web-sekolah/images/icon.jpg" class="custom-logo"
+                            alt="SMPIT Bunayya" itemprop="logo" />
+                    </a>
+                    <div id="site-identity">
+                        <p class="site-title">
+                            <a href="{% url 'home_page' %}" rel="home">SMPIT BUNAYYA</a>
+                        </p>
+                        <p class="site-description">
+                            SMP yang membangun Siswa & Siswi yang berakhlak mulia
+                        </p>
+                    </div><!-- #site-identity -->
+                </div><!-- .site-branding -->
+            </div><!-- .container -->
+        </header><!-- #masthead -->
+
+        <div id="main-nav" class="clear-fix">
+            <div class="container">
+                <nav id="site-navigation" class="main-navigation" role="navigation">
+                    <button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false"><i
+                            class="fa fa-bars"></i>
+                        Menu</button>
+                    <div class="wrap-menu-content">
+                        <div class="menu-main-menu-container">
+                            <ul id="primary-menu" class="menu">
+                                <li id="menu-item-58"
+                                    class="{% if '/' == request.path %}current-menu-item current_page_item{% endif %} menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-58">
+                                    <a href="{% url 'home_page' %}">Beranda</a>
+                                </li>
+                                <li id="menu-item-59"
+                                    class="{% if '/page/sejarah' == request.path or '/page/visi-misi' == request.path or '/page/struktur' == request.path %}current-menu-item current_page_item{% endif %} menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-59">
+                                    <a href="#">Profil &nbsp;&nbsp;<i class="hide-hp fa fa-chevron-circle-down"
+                                            aria-hidden="true"></i></a>
+                                    <ul class="sub-menu">
+                                        <li id="menu-item-90"
+                                            class="{% if '/page/sejarah' == request.path %}current-menu-item current_page_item{% endif %} menu-item menu-item-type-post_type menu-item-object-page menu-item-90">
+                                            <a href="/page/sejarah">Sejarah Singkat</a></li>
+                                        <li id="menu-item-147"
+                                            class="{% if '/page/visi-misi' == request.path %}current-menu-item current_page_item{% endif %} menu-item menu-item-type-post_type menu-item-object-page menu-item-147">
+                                            <a href="/page/visi-misi">Visi dan Misi</a></li>
+                                        <li id="menu-item-68"
+                                            class="{% if '/page/struktur' == request.path %}current-menu-item current_page_item{% endif %} menu-item menu-item-type-custom menu-item-object-custom menu-item-68">
+                                            <a href="/page/struktur">Struktur Management</a></li>
+                                    </ul>
+                                </li>
+                                <li id="menu-item-111"
+                                    class="{% if '/page/info-pendidik' == request.path or '/page/info-siswa' == request.path or '/page/prestasi' == request.path %}current-menu-item current_page_item{% endif %} menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-111">
+                                    <a href="#">GTK &#038; Siswa &nbsp;&nbsp;<i
+                                            class="hide-hp fa fa-chevron-circle-down" aria-hidden="true"></i></a>
+                                    <ul class="sub-menu">
+                                        <li id="menu-item-130"
+                                            class="{% if '/page/info-pendidik' == request.path %}current-menu-item current_page_item{% endif %} menu-item menu-item-type-custom menu-item-object-custom menu-item-130">
+                                            <a href="/page/info-pendidik">Informasi Pendidik</a></li>
+                                        <li id="menu-item-132"
+                                            class="{% if '/page/info-siswa' == request.path %}current-menu-item current_page_item{% endif %} menu-item menu-item-type-custom menu-item-object-custom menu-item-132">
+                                            <a href="/page/info-siswa">Informasi Peserta Didik</a></li>
+                                        <li id="menu-item-134"
+                                            class="{% if '/page/prestasi' == request.path %}current-menu-item current_page_item{% endif %} menu-item menu-item-type-custom menu-item-object-custom menu-item-134">
+                                            <a href="/page/prestasi">Prestasi Sekolah</a></li>
+                                    </ul>
+                                </li>
+                                <li id="menu-item-62"
+                                    class="{% if '/page/sarana-infrastruktur' == request.path or '/page/sarana-pembelajaran' == request.path %}current-menu-item current_page_item{% endif %} menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-62">
+                                    <a href="#">Sarana Prasarana &nbsp;&nbsp;<i
+                                            class="hide-hp fa fa-chevron-circle-down" aria-hidden="true"></i></a>
+                                    <ul class="sub-menu">
+                                        <li id="menu-item-136"
+                                            class="{% if '/page/sarana-infrastruktur' == request.path %}current-menu-item current_page_item{% endif %} menu-item menu-item-type-custom menu-item-object-custom menu-item-136">
+                                            <a href="/page/sarana-infrastruktur">Sarana Infrastruktur</a></li>
+                                        <li id="menu-item-137"
+                                            class="{% if '/page/sarana-pembelajaran' == request.path %}current-menu-item current_page_item{% endif %} menu-item menu-item-type-custom menu-item-object-custom menu-item-137">
+                                            <a href="/page/sarana-pembelajaran">Sarana Pembelajaran</a></li>
+                                    </ul>
+                                </li>
+                                <li id="menu-item-112"
+                                    class="{% if '/page/ppdb' == request.path or '/page/ekskul' == request.path %}current-menu-item current_page_item{% endif %} menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-112">
+                                    <a href="#">Kegiatan Sekolah &nbsp;&nbsp;<i
+                                            class="hide-hp fa fa-chevron-circle-down" aria-hidden="true"></i></a>
+                                    <ul class="sub-menu">
+                                        <li id="menu-item-135"
+                                            class="{% if '/page/ppdb' == request.path %}current-menu-item current_page_item{% endif %} menu-item menu-item-type-custom menu-item-object-custom menu-item-135">
+                                            <a href="/page/ppdb">PPDB (Penerimaan Peserta Didik Baru)</a></li>
+                                        <li id="menu-item-195"
+                                            class="{% if '/page/ekskul' == request.path %}current-menu-item current_page_item{% endif %} menu-item menu-item-type-post_type menu-item-object-page menu-item-195">
+                                            <a href="/page/ekskul">Ekstrakulikuler</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li id="menu-item-113"
+                                    class="{% if '/berita' in request.path %}current-menu-item current_page_item{% endif %} menu-item menu-item-type-custom menu-item-object-custom menu-item-113">
+                                    <a href="{% url 'post_list' %}">Berita &nbsp;&nbsp;</a>
+                                </li>
+                                <li id="menu-item-63"
+                                    class="{% if '/page/kontak' == request.path %}current-menu-item current_page_item{% endif %} menu-item menu-item-type-custom menu-item-object-custom menu-item-63">
+                                    <a href="/page/kontak">Kontak</a>
+                                </li>
+
+                                {% if request.user.is_authenticated %}
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom"><a
+                                        href="{% url 'admin_dashboard' %}">Admin</a></li>
+                                {% else %}
+                                <li class="menu-item menu-item-type-custom menu-item-object-custom"><a
+                                        href="{% url 'admin_login' %}">Masuk</a></li>
+                                {% endif %}
+
+                            </ul>
+                        </div>
+                    </div><!-- .menu-content -->
+                </nav><!-- #site-navigation -->
+            </div> <!-- .container -->
+        </div> <!-- #main-nav -->
+
+
+        {% block home-page-items %}
+        <div id="featured-slider">
+            <div class="container">
+
+                <div class="cycle-slideshow" id="main-slider" data-cycle-fx="fadeout" data-cycle-speed="1000"
+                    data-cycle-pause-on-hover="true" data-cycle-loader="true" data-cycle-log="false"
+                    data-cycle-swipe="true" data-cycle-auto-height="container"
+                    data-cycle-caption-template="&lt;h3&gt;&lt;a href=&quot;{{url}}&quot; target=&quot;{{target}}&quot;&gt;{{title}}&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;{{excerpt}}&lt;/p&gt;"
+                    data-cycle-timeout="3000" data-cycle-slides="article">
+
+                    <!-- prev/next links -->
+                    <div class="cycle-prev"><i class="fa fa-chevron-left" aria-hidden="true"></i></div>
+                    <div class="cycle-next"><i class="fa fa-chevron-right" aria-hidden="true"></i></div>
+
+                    {% for post in featured_posts %}
+                    <article class="first" data-cycle-title="{{ post.title }}"
+                        data-cycle-url="{% url 'post_detail' slug=post.slug %}"
+                        data-cycle-excerpt="{{ post.ringkasan }}" data-cycle-target="_self">
+                        <a href="{% url 'post_detail' slug=post.slug %}" target="_self">
+                            <img src="{{ post.post_image.url }}" alt="{{ post.title }}" />
+                        </a>
+                    </article>
+                    {% endfor %}
+                </div> <!-- #main-slider -->
+
+            </div><!-- .container -->
+        </div><!-- #featured-slider -->
+
+        <div id="featured-content">
+            <div class="container">
+                <div class="inner-wrapper featured-content-column-3">
+                    <article>
+                        <header class="entry-header">
+                            <h2 class="entry-title">Prakata Kepala Sekolah</h2>
+                        </header>
+                        <div class="entry-content">
+                            <div>
+                                <p>
+                                    Selamat datang di Website SMPIT Bunayya Gayo Lues yang saya tujukan untuk seluruh
+                                    unsur pimpinan, guru, karyawan dan siswa masyarakat guna
+                                    dapat mengakses seluruh informasi tentang segala profil, aktifitas/kegiatan serta
+                                    fasilitas sekolah kami.
+                                </p>
+                            </div>
+                        </div>
+                    </article>
+                    <article>
+                        <header class="entry-header">
+                            <h2 class="entry-title">Program Sekolah</a></h2>
+                        </header>
+                        <div class="entry-content">
+                            <div>
+                                <p>
+                                    Adanya berbagai kegiatan pelatihan dari luar yang sering dilakukan di sekolah ini
+                                    memudahkan sekolah berhubungan dengan dunia usaha dan dunia industri juga dalam
+                                    mengadopsi kemajuan teknologi yang saat ini berkembang dengan pesat.
+                                </p>
+                            </div>
+                        </div>
+                    </article>
+                    <article>
+                        <header class="entry-header">
+                            <h2 class="entry-title">Program Tahfizul Quran</a></h2>
+                        </header>
+                        <div class="entry-content">
+                            <div>
+                                <p>
+                                    Program ini adalah satu Unggulan dari SMPIT Bunayya, karena dengan adanya program
+                                    tahfizul quran ini kami bisa menciptakan kader-kader agama yang paham dengan alquran
+                                    dan bisa menjadi
+                                    pemimpin yang mengerti ilmu alquran.
+                                </p>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+        {% endblock home-page-items %}
+
+        <div id="featured-news-events">
+            <div class="container">
+                <div class="inner-wrapper">
+                    {% block left-content %}
+                    <div class="recent-news">
+                        {% block left-title %}
+                            <h2>
+                                <i class="fa fa-newspaper" aria-hidden="true" style="color:#ffba00;"></i> &nbsp;
+                                <span class="entry-title">Informasi Terkini</span>
+                            </h2>
+                        {% endblock left-title %}
+                        <div class="inner-wrapper">
+                            {% for post in posts %}
+                            <div class="news-post">
+                                <div class="news-content">
+                                    <a href="{% url 'post_detail' slug=post.slug %}"><img
+                                            src="{{ post.post_image.url }}" alt=""></a>
+                                    <h3><a
+                                            href="{% url 'post_detail' slug=post.slug %}">{{ post.title|truncatewords:10 }}</a>
+                                    </h3>
+                                    <div class="block-meta">
+                                        <span>
+                                            <time class="entry-date published"
+                                                datetime="{{ post.created_at|date:'c' }}">
+                                                <i class="fa fa-calendar" aria-hidden="true" style="color:#ffba00;"></i>
+                                                &nbsp;
+                                                {{ post.created_at|date:"l, d F Y" }}
+                                            </time>
+                                            <time class="updated"
+                                                datetime="{{ post.updated_at|date:'c' }}">{{ post.updated_at|date:"l, d F Y" }}</time>
+                                        </span>
+                                    </div>
+                                    <p>
+                                        {{ post.ringkasan|truncatewords:20 }}
+                                    </p>
+                                    <a href="{% url 'post_detail' slug=post.slug %}" class="button">
+                                        Baca Selengkapnya <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                                    </a>
+                                </div> <!-- .news-content -->
+                            </div> <!-- .news-post -->
+                            {% endfor %}
+                        </div> <!-- .inner-wrapper -->
+                        
+                        {% block left-footer %}
+                            <div class="pagination" style="display:flex;width:100%;">
+                                <span class="step-links">
+                                    {% if posts.has_previous %}
+                                    <a href="?page=1">&laquo; first</a>
+                                    <a href="?page={{ posts.previous_page_number }}">previous</a>
+                                    {% endif %}
+                            
+                                    <span class="current">
+                                        Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+                                    </span>
+                            
+                                    {% if posts.has_next %}
+                                    <a href="?page={{ posts.next_page_number }}">next</a>
+                                    <a href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <div class="mobile-only"></div>
+                        {% endblock left-footer %}
+                    </div> <!-- .recent-news -->
+                    {% endblock left-content %}
+
+                    {% block right-content %}
+                    <div class="recent-events">
+                        <h2>
+                            <i class="fa fa-calendar" aria-hidden="true" style="color:#ffba00;"></i> &nbsp;
+                            <span class="entry-title">Informasi Terpopuler</span>
+                        </h2>
+                        {% for post in popular_posts %}
+                        <div class="event-post">
+                            <a href="{% url 'post_detail' slug=post.slug %}">
+                                <img width="150" height="150" src="{{ post.post_image.url }}"
+                                    class="alignleft wp-post-image" alt="" />
+                            </a>
+                            <h3>
+                                <a href="{% url 'post_detail' slug=post.slug %}">{{ post.title }}</a>
+                            </h3>
+                            <p style="display:grid;width:100%;">{{ post.ringkasan }}</p>
+                        </div><!-- .event-post -->
+                        {% endfor %}
+
+                    </div> <!-- .recent-events -->
+                    {% endblock right-content %}
+
+                </div> <!-- .inner-wrapper -->
+            </div> <!-- .container -->
+        </div> <!-- #featured-news-events -->
+        <div id="content" class="site-content">
+            <div class="container">
+                <div class="inner-wrapper">
+
+                </div><!-- .inner-wrapper -->
+            </div><!-- .container -->
+        </div><!-- #content -->
+        <div id="footer-widgets">
+            <div class="container">
+                <div class="inner-wrapper">
+                    <div class="footer-active-4 footer-widget-area">
+                        <aside id="text-3" class="widget widget_text">
+                            <h3 class="widget-title">Tentang SMPIT BUNAYYA</h3>
+                            <div class="textwidget">SMPIT Bunayya merupakan salah satu
+                                Lembaga Pendidikan Menengah di Blangkejeren, Gayo Lues yang menggunakan program unggulan
+                                tahfizul Quran</div>
+                        </aside>
+                    </div><!-- .footer-widget-area -->
+                    <div class="footer-active-4 footer-widget-area">
+                        <aside id="text-2" class="widget widget_text">
+                            <h3 class="widget-title">Social Media Kami</h3>
+                            <div class="textwidget">
+                                <aside class="widget education_hub_widget_social" id="education-hub-social-2">
+                                    <ul class="size-medium">
+
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-lg-4 bg-dark">
+                                                    <li class="navbar" style="margin: 10px;">
+                                                        <i class="fa-2x fab fa-youtube" style="margin-right: 10px;"></i>
+                                                        <i class="fa-2x fab fa-facebook"
+                                                            style="margin-right: 10px;"></i>
+                                                        <i class="fa-2x fab fa-instagram"></i>
+                                                    </li>
+                                                </div>
+                                    </ul>
+                                </aside>
+                                <aside class="widget widget_text" id="text-3">
+                                    <div class="textwidget">
+                                        <p>Ayo Follow dan Ikuti informasi seputar kegiatan di SMPIT Bunayya di
+                                            social media kami.</p>
+                                    </div>
+                                </aside>
+                            </div>
+                        </aside>
+                    </div><!-- .footer-widget-area -->
+                    <div class="footer-active-4 footer-widget-area">
+                        <aside id="nav_menu-2" class="widget widget_nav_menu">
+                            <h3 class="widget-title">Link Tautan Kami</h3>
+                            <div class="menu-top-menu-container">
+                                <ul id="menu-top-menu-1" class="menu">
+                                    <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-79">
+                                        <a href="/page/ppdb">
+                                            <i class="fa fa-angle-double-right" aria-hidden="true" style="color:#ffba00;"></i> &nbsp;PPDB
+                                        </a>
+                                    </li>
+                                    <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-74"><a
+                                            target="_blank" href="#"><i class="fa fa-angle-double-right"
+                                                aria-hidden="true" style="color:#ffba00;"></i> &nbsp;e-Perpus</a></li>
+                                    <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-73"><a
+                                            target="_blank" href="#"><i class="fa fa-angle-double-right"
+                                                aria-hidden="true" style="color:#ffba00;"></i> &nbsp;e-Hubin</a></li>
+                                </ul>
+                            </div>
+                        </aside>
+                    </div><!-- .footer-widget-area -->
+                    <div class="footer-active-4 footer-widget-area">
+                        <aside id="recent-posts-3" class="widget widget_recent_entries">
+                            <h3 class="widget-title">Informasi Terkini</h3>
+                            <ul>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-angle-double-right" aria-hidden="true"
+                                            style="color:#ffba00;"></i> &nbsp;Pembukaan SMA Taruna
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fa fa-angle-double-right" aria-hidden="true"
+                                            style="color:#ffba00;"></i> &nbsp;Market Day &amp; Perjusami
+                                    </a>
+                                </li>
+                            </ul>
+                        </aside>
+                    </div><!-- .footer-widget-area -->
+                </div><!-- .inner-wrapper -->
+            </div><!-- .container -->
+        </div>
+        <footer id="colophon" class="site-footer" role="contentinfo">
+            <div class="container">
+                <div id="footer-navigation" class="menu-footer-menu-container">
+                    <ul id="menu-footer-menu" class="menu">
+                        <li id="menu-item-75"
+                            class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-75">
+                            <a href="{% url 'home_page' %}">Beranda</a></li>
+                        <li id="menu-item-76"
+                            class="menu-item menu-item-type-post_type menu-item-object-page menu-item-76"><a
+                                href="#">Boarding School</a></li>
+                        <li id="menu-item-77"
+                            class="menu-item menu-item-type-post_type menu-item-object-page menu-item-77"><a
+                                href="#">Program Unggulan</a>
+                        </li>
+                        <li id="menu-item-78"
+                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-78"><a
+                                href="#">Kontak Kami</a></li>
+                    </ul>
+                </div>
+                <div class="copyright">
+                    All Rights Reserved © SMPIT Bunayya 2020.
+                </div><!-- .copyright -->
+                <div class="site-info">
+                    <span class="sep"></span>
+                    Website ini dibangun oleh <a href="#" rel="designer" target="_blank">Bunayya
+                        Innovation Center</a>
+                </div><!-- .site-info -->
+            </div><!-- .container -->
+        </footer><!-- #colophon -->
+    </div><!-- #page --><a href="#page" class="scrollup" id="btn-scrollup"><i class="fa fa-chevron-up"></i></a>
+    <script type='text/javascript' src='/static/web-sekolah/js/skip-link-focus-fix.min.js?ver=20130115'></script>
+    <script type='text/javascript' src='/static/web-sekolah/js/jquery.cycle2.min.js?ver=2.1.6'></script>
+    <script type='text/javascript' src='/static/web-sekolah/js/custom.min.js?ver=1.0'></script>
+    <script type='text/javascript'>
+        /* <![CDATA[ */
+        var EducationHubScreenReaderText = { "expand": "<span class=\"screen-reader-text\">expand child menu<\/span>", "collapse": "<span class=\"screen-reader-text\">collapse child menu<\/span>" };
+    /* ]]> */
+    </script>
+    <script type='text/javascript' src='/static/web-sekolah/js/navigation.min.js?ver=20120206'></script>
+</body>
+
+</html>

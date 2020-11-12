@@ -1,0 +1,157 @@
+{% extends 'blog/web-admin/admin-base.html' %}
+
+{% block admin-content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+    <h1 class="h2">Daftar Pengurus</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group mr-2">
+            <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#tambahPengurus">Tambah Pengurus</button>
+            <!-- Tambah Pengurus Modal -->
+            <div class="modal fade" id="tambahPengurus" tabindex="-1" role="dialog"
+                aria-labelledby="tambahPengurusTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <form method="POST" action="{% url 'admin_pengurus' %}">
+                            {% csrf_token %}
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="tambahPengurusLongTitle">Tambah Pengurus</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="id_nama_depan" class="requiredField">Nama Depan<span
+                                            class="asteriskField">*</span></label>
+                                    <input type="text" name="nama_depan" maxlength="15"
+                                        class="textinput textInput form-control" required="required" id="id_nama_depan">
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_nama_belakang" class="requiredField">Nama Belakang<span
+                                            class="asteriskField">*</span></label>
+                                    <input type="text" name="nama_belakang" maxlength="15"
+                                        class="textinput textInput form-control" required="required"
+                                        id="id_nama_belakang">
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_username" class="requiredField">Username<span
+                                            class="asteriskField">*</span></label>
+                                    <input type="text" name="username" maxlength="15"
+                                        class="textinput textInput form-control" required="required" id="id_username">
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_password" class="requiredField">Kata Sandi<span
+                                            class="asteriskField">*</span></label>
+                                    <input type="text" name="password" maxlength="15"
+                                        class="textinput textInput form-control" required="required" id="id_password">
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_status" class="requiredField">Status Pengurus<span
+                                            class="asteriskField">*</span></label>
+                                    <select name="status_pengurus" class="select form-control" id="id_status">
+                                        <option value="petugas">Petugas</option>
+                                        <option value="santri">Santri</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                <input type="submit" class="btn btn-primary" name="confirm-add" value="Tambah Pengurus">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>Nama Lengkap</th>
+                <th class="text-center">Username</th>
+                <th class="text-center">Status</th>
+                <th class="text-right">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pengurus in list_pengurus %}
+            <tr>
+                <td>{% if pengurus.get_full_name %}{{ pengurus.get_full_name }}{% else %}--tidak ada nama--{% endif %}</td>
+                <td class="text-center">{{ pengurus.username }}</td>
+                <td class="text-center">{% if pengurus.is_staff %}Petugas{% else %}Santri{% endif %}</td>
+                <td>
+                    <button class="float-right ml-1 btn btn-sm btn-danger" data-toggle="modal" data-target="#deletePengguna{{ pengurus.id }}">Delete</button>
+                    <!-- Delete Modal -->
+                    <div class="modal fade" id="deletePengguna{{ pengurus.id }}" tabindex="-1" role="dialog"
+                        aria-labelledby="deletePengguna{{ pengurus.id }}Title" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <form method="POST" action="">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deletePengguna{{ pengurus.id }}LongTitle">Konfirmasi Hapus Pengurus</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Kamu yakin ingin menghapus pengurus ini?</p>
+                                        <p><strong>{{ pengurus.get_full_name }}</strong></p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Batal</button>
+                                        <input type="submit" class="btn btn-danger" name="confirm-delete"
+                                            value="Hapus Pengurus">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="float-right btn btn-sm btn-success" data-toggle="modal" data-target="#updatePengurus{{ pengurus.id }}">Update Pengurus</button>
+                    <!-- Update Pengurus Modal -->
+                    <div class="modal fade" id="updatePengurus{{ pengurus.id }}" tabindex="-1" role="dialog" aria-labelledby="updatePengurus{{ pengurus.id }}Title" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <form method="POST" action="{% url 'admin_pengurus_update' pengurus_id=pengurus.id %}">
+                                    {% csrf_token %}
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="updatePengurus{{ pengurus.id }}LongTitle">Update Pengurus</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="id_nama_depan" class="requiredField">Nama Depan<span class="asteriskField">*</span></label>
+                                            <input type="text" name="nama_depan" maxlength="15" class="textinput textInput form-control" required="required" id="id_nama_depan" value="{{ pengurus.first_name }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="id_nama_belakang" class="requiredField">Nama Belakang<span class="asteriskField">*</span></label>
+                                            <input type="text" name="nama_belakang" maxlength="15" class="textinput textInput form-control" required="required" id="id_nama_belakang" value="{{ pengurus.last_name }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="id_username" class="requiredField">Username<span class="asteriskField">*</span></label>
+                                            <input type="text" name="username" maxlength="15" class="textinput textInput form-control" required="required" id="id_username" value="{{ pengurus.username }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="id_password" class="requiredField">Kata Sandi</label>
+                                            <input type="text" name="password" maxlength="15" class="textinput textInput form-control" id="id_password" placeholder="Masukkan Password Baru">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                        <input type="submit" class="btn btn-primary" name="confirm-update" value="Update Pengurus">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock admin-content %}

@@ -1,0 +1,97 @@
+{% extends 'blog/web-admin/admin-base.html' %}
+
+{% block admin-content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+    <h1 class="h2">Prestasi</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group mr-2">
+            <a href="{% url 'admin_prestasi_add' %}" class="btn btn-sm btn-primary">Tambah Prestasi</a>
+        </div>
+    </div>
+</div>
+<div class="btn-group dropright mb-2">
+    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+        aria-expanded="false">
+        Tahun Pelajaran
+    </button>
+    <div class="dropdown-menu">
+        {% for tahun in list_tahun %}
+            <a class="dropdown-item" href="#">{{ tahun }}</a>
+        {% endfor %}
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>Nama Prestasi</th>
+                <th class="text-center">Tahun Ajaran</th>
+                <th class="text-center">Tanggal Kegiatan</th>
+                <th class="text-center">Tingkat</th>
+                <th class="text-center">Ranking</th>
+                <th class="text-center">Pemegang Prestasi</th>
+                <th class="text-right">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for prestasi in list_prestasi %}
+            <tr>
+                <td>{{ prestasi.nama_kegiatan }}</td>
+                <td class="text-center">{% if prestasi.tahun_ajaran %}{{ prestasi.tahun_ajaran }}{% else %}-{% endif %}</td>
+                <td class="text-center">{% if prestasi.tanggal_kegiatan %}{{ prestasi.tanggal_kegiatan }}{% else %}-{% endif %}</td>
+                <td class="text-center">{% if prestasi.tingkat_prestasi %}{{ prestasi.tingkat_verbose|title }}{% else %}-{% endif %}</td>
+                <td class="text-center">{% if prestasi.ranking_prestasi %}{{ prestasi.ranking_verbose }}{% else %}-{% endif %}</td>
+                <td class="text-left">
+                    {% if prestasi.pemegang_prestasi_guru.all %}
+                    <ul class="list-group">
+                    {% for guru in prestasi.pemegang_prestasi_guru.all %}
+                        <li class="border-0 list-group-item py-0 pl-1 pr-0"><div class="text-danger border-bottom">Guru:</div>{{ guru.user.get_full_name }}</li>
+                    {% endfor %}
+                    </ul>
+                    {% endif %}
+                    {% if prestasi.pemegang_prestasi_siswa.all %}
+                    <ul class="list-group">
+                    <li class="border-0 list-group-item py-0 pl-1 pr-0"><div class="text-info border-bottom">Siswa:</div>
+                    {% for siswa in prestasi.pemegang_prestasi_siswa.all %}
+                    {{ siswa.user.get_full_name }}{% if not forloop.last %},{% endif %}
+                    {% endfor %}
+                    </li>
+                    </ul>
+                    {% endif %}
+                    {% if not prestasi.pemegang_prestasi_siswa.all and not prestasi.pemegang_prestasi_guru.all %}<p class="text-center my-0">-</p>{% endif %}
+                </td>
+                <td>
+                    <button class="float-right ml-1 btn btn-sm btn-danger" data-toggle="modal"
+                        data-target="#hapusPrestasi{{ prestasi.id }}">Delete</button>
+                    <!-- Delete Modal -->
+                    <div class="modal fade" id="hapusPrestasi{{ prestasi.id }}" tabindex="-1" role="dialog"
+                        aria-labelledby="hapusPrestasi{{ prestasi.id }}Title" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <form method="POST" action="{% url 'admin_prestasi_hapus' prestasi_id=prestasi.id %}">
+                                    {% csrf_token %}
+                                    <div class="modal-body">
+                                        <p class="text-center pb-2 h6">Hapus Prestasi</p>
+                                        <hr>
+                                        <p>Kamu yakin ingin menghapus prestasi ini?</p>
+                                        <p><strong>{{ prestasi.nama_kegiatan }} T.A. {{ prestasi.tahun_ajaran }}</strong></p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Batal</button>
+                                        <input type="submit" class="btn btn-danger" name="confirm-delete" value="Hapus Prestasi">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{% url 'admin_prestasi_update' prestasi_id=prestasi.id %}"
+                        class="float-right btn btn-sm btn-success">Edit</a>
+                    <a href="{% url 'admin_prestasi_detail' prestasi_id=prestasi.id %}" class="float-right mr-1 btn btn-sm btn-warning">Lihat Rincian</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock admin-content %}

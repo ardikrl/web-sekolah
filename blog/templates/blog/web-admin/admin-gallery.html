@@ -1,0 +1,164 @@
+{% extends 'blog/web-admin/admin-base.html' %}
+{% load crispy_forms_tags %}
+
+{% block admin-content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+    <h1 class="h2">Gallery</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group mr-2">
+            <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addGallery">
+                Upload Gallery
+            </button>
+        </div>
+    </div>
+    <!-- Add Modal -->
+    <div class="modal fade" id="addGallery" tabindex="-1" role="dialog" aria-labelledby="addGalleryTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addGalleryLongTitle">Upload Gallery</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {{ form|crispy }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <input type="submit" class="btn btn-primary" name="upload-gallery" value="Upload Gallery">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>Info</th>
+                <th class="text-center">Preview</th>
+                {% if request.user.is_staff %}
+                <th class="text-right pr-5">Actions</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for image in gallery %}
+            <tr>
+                <td>
+                    <div>{{ image.caption }}</div>
+                    <div>Kategori: <strong>{{ image.category }}</strong>, Status:
+                        <strong>{{ image.gallery_status }}</strong></div>
+                </td>
+                <td class="text-center"><img width="40" height="auto" src="{{ image.gallery_image.url }}"
+                        alt="{{ image.caption }}"></td>
+                {% if request.user.is_staff %}
+                <td class="float-right">
+                    <button class="btn btn-sm btn-danger" data-toggle="modal"
+                        data-target="#hapusGallery{{ image.id }}">Delete</button>
+                    <!-- Delete Modal -->
+                    <div class="modal fade" id="hapusGallery{{ image.id }}" tabindex="-1" role="dialog"
+                        aria-labelledby="hapusGallery{{ image.id }}Title" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <form method="POST" action="{% url 'admin_gallery_hapus' gallery_id=image.id %}">
+                                    {% csrf_token %}
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="hapusGallery{{ image.id }}LongTitle">Konfirmasi
+                                            Hapus Gallery</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Kamu yakin ingin menghapus gallery ini?</p>
+                                        <p><strong>{{ image.caption }}</strong></p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Batal</button>
+                                        <input type="submit" class="btn btn-danger" name="confirm-delete"
+                                            value="Hapus Gallery">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-sm btn-success" data-toggle="modal"
+                        data-target="#updateGallery{{ image.id }}">Edit Info</button>
+                    <!-- Update Modal -->
+                    <div class="modal fade" id="updateGallery{{ image.id }}" tabindex="-1" role="dialog"
+                        aria-labelledby="updateGallery{{ image.id }}Title" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <form method="POST" action="{% url 'admin_gallery_update' gallery_id=image.id %}">
+                                    {% csrf_token %}
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="updateGallery{{ image.id }}LongTitle">Update Gallery
+                                            Info</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div id="div_id_caption" class="form-group">
+                                            <label for="id_caption" class="requiredField">Caption<span
+                                                    class="asteriskField">*</span></label>
+                                            <input type="text" name="caption" maxlength="50"
+                                                class="textinput textInput form-control" required="required"
+                                                id="id_caption" value="{{ image.caption }}">
+                                        </div>
+                                        <div id="div_id_category" class="form-group">
+                                            <label for="id_category" class="">Category</label>
+                                            <select name="category" class="select form-control" id="id_category">
+                                                {% if image.category.name %}
+                                                <option value="{{ image.category.id }}" selected="">
+                                                    {{ image.category.name }}</option>
+                                                {% else %}
+                                                <option value="" selected="">---------</option>
+                                                {% endif %}
+                                                {% for category in categories %}
+                                                {% if image.category.name != category.name %}
+                                                <option value="{{ category.id }}">{{ category.name }}</option>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div id="div_id_gallery_status" class="form-group">
+                                            <label for="id_gallery_status" class="requiredField">Gallery status<span
+                                                    class="asteriskField">*</span></label>
+                                            <select name="gallery_status" class="select form-control"
+                                                id="id_gallery_status">
+                                                {% if image.gallery_status == 'private' %}
+                                                <option value="private">Private</option>
+                                                <option value="public">Public</option>
+                                                {% else %}
+                                                <option value="public">Public</option>
+                                                <option value="private">Private</option>
+                                                {% endif %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Batal</button>
+                                        <input type="submit" class="btn btn-primary" name="update-gallery"
+                                            value="Update Gallery Info">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock admin-content %}
