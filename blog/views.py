@@ -1,15 +1,19 @@
 import time
 
+from django.contrib.auth import authenticate, get_user_model, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
-
-from .forms import CategoriForm, GalleryForm, HalamanStatisForm, PostForm, PPDBForm
-from .models import Category, Gallery, HalamanStatis, Post
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from sekolah.models import Prestasi, Siswa
+
+from .forms import (CategoriForm, GalleryForm, HalamanStatisForm, PostForm,
+                    PPDBForm)
+from .models import Category, Gallery, HalamanStatis, Post
 
 
 def home_page(request):
@@ -380,3 +384,11 @@ def admin_pengurus_update(request, pengurus_id):
         pengurus.save()
         return HttpResponseRedirect(reverse('admin_pengurus'))
     return render(request, "blog/web-admin/admin-pengurus.html")
+
+
+class HelloView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        content = {'message': 'Hello, World!'}
+        return Response(content)
