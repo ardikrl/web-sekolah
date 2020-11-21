@@ -4,16 +4,16 @@ from .models import Post
 
 
 class PostSerializer(serializers.ModelSerializer):
-    author = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
-    category = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    author_name = serializers.CharField(source='author.get_full_name', read_only=True)
+    category_name = serializers.CharField(source='category', read_only=True)
 
     class Meta:
         model = Post
         fields = (
-            "author",
+            "author_name",
             "title",
             "slug",
-            "category",
+            "category_name",
             "post_image",
             "featured",
             "ringkasan",
