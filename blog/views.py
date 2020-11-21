@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from sekolah.models import Prestasi, Siswa
@@ -14,6 +15,7 @@ from sekolah.models import Prestasi, Siswa
 from .forms import (CategoriForm, GalleryForm, HalamanStatisForm, PostForm,
                     PPDBForm)
 from .models import Category, Gallery, HalamanStatis, Post
+from .serializers import PostSerializer
 
 
 def home_page(request):
@@ -392,3 +394,8 @@ class HelloView(APIView):
     def get(self, request):
         content = {'message': 'Hello, World!'}
         return Response(content)
+
+
+class PostViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Post.objects.filter(post_status='published').order_by('-created_at')
+    serializer_class = PostSerializer
