@@ -1,7 +1,7 @@
 from django import forms
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
-from .models import Siswa, Guru, Staff, Prestasi, MataPelajaran, NilaiMapel, Kelas
+from .models import TagihanSiswa, Siswa, Guru, Staff, Prestasi, MataPelajaran, NilaiMapel, Kelas
 
 
 class SiswaForm(forms.ModelForm):
