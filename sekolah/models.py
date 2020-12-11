@@ -178,7 +178,7 @@ class Siswa(models.Model):
 
 class TagihanSiswa(models.Model):
     siswa = models.ForeignKey(Siswa, on_delete=models.CASCADE)
-    penerima = models.ForeignKey(Staff, on_delete=models.RESTRICT)
+    penerima = models.ForeignKey(Staff, on_delete=models.PROTECT)
     keterangan = models.CharField(max_length=255)
     KATEGORI_CHOICES = (
         ("spp", "SPP Bulanan"),
