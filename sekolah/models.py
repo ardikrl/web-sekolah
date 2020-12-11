@@ -199,7 +199,7 @@ class TagihanSiswa(models.Model):
     )
     status_pembayaran = models.CharField(
         max_length=25,
-        choices=KATEGORI_CHOICES,
+        choices=STATUS_CHOICES,
         default="lunas",
     )
     tanggal_bayar = models.DateTimeField()

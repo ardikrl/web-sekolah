@@ -6,6 +6,7 @@ from .models import (
     KepalaSekolah,
     Kelas,
     WaliKelas,
+    Staff,
     Guru,
     Siswa,
     TagihanSiswa,
@@ -75,6 +76,17 @@ class GuruAdmin(admin.ModelAdmin):
     def nama(self, obj):
         return obj.user.get_full_name()
 admin.site.register(Guru, GuruAdmin)
+
+
+class StaffAdmin(admin.ModelAdmin):
+    list_display = (
+        "nama",
+        "nip",
+        "status_staff",
+    )
+    def nama(self, obj):
+        return obj.user.get_full_name()
+admin.site.register(Staff, StaffAdmin)
 
 
 class SiswaAdmin(admin.ModelAdmin):
