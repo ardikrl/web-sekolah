@@ -5,6 +5,7 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register(r'posts', views.PostViewSet)
+router.register(r'galleries', views.GalleryViewSet)
 
 urlpatterns = [
     path("", views.home_page, name="home_page"),

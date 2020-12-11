@@ -15,7 +15,7 @@ from sekolah.models import Prestasi, Siswa
 from .forms import (CategoriForm, GalleryForm, HalamanStatisForm, PostForm,
                     PPDBForm)
 from .models import Category, Gallery, HalamanStatis, Post
-from .serializers import PostSerializer
+from .serializers import PostSerializer, GallerySerializer
 
 
 def home_page(request):
@@ -399,3 +399,9 @@ class HelloView(APIView):
 class PostViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Post.objects.filter(post_status='published').order_by('-created_at')
     serializer_class = PostSerializer
+
+
+class GalleryViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Gallery.objects.filter(gallery_status='public').order_by('-created_at')
+    serializer_class = GallerySerializer
+

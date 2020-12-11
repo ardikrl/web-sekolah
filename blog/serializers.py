@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Post
+from .models import Post, Gallery
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -22,4 +22,21 @@ class PostSerializer(serializers.ModelSerializer):
             "post_views",
             "created_at",
             "updated_at",
+        )
+
+
+class GallerySerializer(serializers.ModelSerializer):
+    author_name = serializers.CharField(source='author.get_full_name', read_only=True)
+    category_name = serializers.CharField(source='category', read_only=True)
+
+    class Meta:
+        model = Post
+        fields = (
+            "author_name",
+            "category_name",
+            "caption",
+            "slug",
+            "gallery_image",
+            "post_views",
+            "created_at",
         )
