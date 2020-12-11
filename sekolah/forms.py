@@ -15,10 +15,11 @@ class SiswaForm(forms.ModelForm):
 
 
 class TagihanSiswaForm(forms.ModelForm):
+    tagihan = forms.IntegerField(label='NIK', required=True, widget=forms.TextInput(attrs={'placeholder': 'Total Tagihan (Rp.)'}))
     tanggal_bayar = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}), required=False)
     class Meta:
         model = TagihanSiswa
-        fields = ('siswa', 'penerima', 'keterangan', 'tanggal_bayar', 'kategori_pembayaran', 'tagihan')
+        fields = ('siswa', 'penerima', 'keterangan', 'tanggal_bayar', 'kategori_pembayaran', 'tagihan', 'status_pembayaran')
 
 
 class GuruForm(forms.ModelForm):
