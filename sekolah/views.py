@@ -169,15 +169,7 @@ def admin_tagihan_add(request):
     if request.method == "POST":
         form = TagihanSiswaForm(request.POST)
         if form.is_valid():
-            tagihan = TagihanSiswa.objects.create(
-                siswa=form.cleaned_data["siswa"],
-                penerima=form.cleaned_data["penerima"],
-                keterangan=form.cleaned_data["keterangan"],
-                kategori_pembayaran=form.cleaned_data["kategori_pembayaran"],
-                status_pembayaran=form.cleaned_data["status_pembayaran"],
-                tanggal_bayar=form.cleaned_data["tanggal_bayar"],
-                tagihan=form.cleaned_data["tagihan"],
-            )
+            form.save()
 
         return redirect("admin_tagihan")
     data["form"] = TagihanSiswaForm()
