@@ -202,7 +202,8 @@ class TagihanSiswa(models.Model):
         choices=KATEGORI_CHOICES,
         default="lunas",
     )
-    tanggal_bayar = models.DateTimeField(auto_now_add=True)
+    tanggal_bayar = models.DateTimeField()
+    tanggal_dibuat = models.DateTimeField(auto_now_add=True)
     tanggal_diubah = models.DateTimeField(auto_now=True)
     tagihan = models.IntegerField()
 
