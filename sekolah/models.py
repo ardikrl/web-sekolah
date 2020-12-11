@@ -207,6 +207,9 @@ class TagihanSiswa(models.Model):
     tanggal_diubah = models.DateTimeField(auto_now=True)
     tagihan = models.IntegerField()
 
+    def __str__(self):
+        return f"{self.kategori_pembayaran}{self.siswa.user.get_full_name()}"
+
 
 class Prestasi(models.Model):
     nama_kegiatan = models.CharField(max_length=30, blank=True, null=True)
