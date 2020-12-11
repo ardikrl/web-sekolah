@@ -1,7 +1,7 @@
 from django import forms
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
-from .models import Siswa, Guru, Prestasi, MataPelajaran, NilaiMapel, Kelas
+from .models import Siswa, Guru, Staff, Prestasi, MataPelajaran, NilaiMapel, Kelas
 
 
 class SiswaForm(forms.ModelForm):
@@ -14,6 +14,13 @@ class SiswaForm(forms.ModelForm):
         fields = ('nis_siswa', 'nisn_siswa', 'pas_photo', 'nama_orang_tua', 'pekerjaan_orang_tua', 'alamat', 'tanggal_lahir', 'asal_sekolah', 'status_siswa', 'bio')
 
 
+class TagihanSiswaForm(forms.ModelForm):
+    tanggal_bayar = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}), required=False)
+    class Meta:
+        model = TagihanSiswa
+        fields = ('siswa', 'penerima', 'keterangan', 'tanggal_bayar', 'kategori_pembayaran', 'tagihan')
+
+
 class GuruForm(forms.ModelForm):
     tanggal_lahir = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}), required=False)
     bio = forms.CharField(widget=CKEditorUploadingWidget(), required=False)
@@ -21,6 +28,15 @@ class GuruForm(forms.ModelForm):
     class Meta:
         model = Guru
         fields = ('gelar', 'pas_photo', 'nik', 'alamat', 'tanggal_lahir', 'status_guru', 'bio')
+
+
+class StaffForm(forms.ModelForm):
+    tanggal_lahir = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}), required=False)
+    bio = forms.CharField(widget=CKEditorUploadingWidget(), required=False)
+    nip = forms.IntegerField(label='NIP', required=True, widget=forms.TextInput(attrs={'placeholder': 'Nomor Induk Pegawai'}))
+    class Meta:
+        model = Staff
+        fields = ('gelar', 'pas_photo', 'nip', 'alamat', 'tanggal_lahir', 'status_staff', 'bio')
 
 
 class PrestasiForm(forms.ModelForm):

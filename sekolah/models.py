@@ -73,6 +73,72 @@ class WaliKelas(models.Model):
         verbose_name_plural = "Wali Kelas"
 
 
+class Guru(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    gelar = models.CharField(max_length=7, blank=True, null=True, default='S.Pd.')
+    pas_photo = models.ImageField(upload_to="photo-guru", blank=True, null=True)
+    nik = models.CharField(max_length=50, blank=True, null=True)
+    bio = models.TextField(max_length=500, blank=True, null=True)
+    alamat = models.CharField(max_length=30, blank=True, null=True)
+    tanggal_lahir = models.DateField(null=True, blank=True)
+    STATUS_CHOICES = (
+        ("lepas", "Lepas"),
+        ("tetap", "Tetap"),
+        ("keluar", "Keluar"),
+    )
+    status_guru = models.CharField(
+        max_length=10,
+        choices=STATUS_CHOICES,
+        default="tetap",
+        blank=True,
+        null=True,
+    )
+    slug = AutoSlugField(populate_from="id")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        if self.gelar:
+            return f"{self.user.get_full_name()}, {self.gelar}"
+        else:
+            return self.user.get_full_name()
+
+    class Meta:
+        verbose_name_plural = "guru"
+
+
+class Staff(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    gelar = models.CharField(max_length=7, blank=True, null=True, default='S.Pd.')
+    pas_photo = models.ImageField(upload_to="photo-guru", blank=True, null=True)
+    nip = models.CharField(max_length=50, blank=True, null=True)
+    bio = models.TextField(max_length=500, blank=True, null=True)
+    alamat = models.CharField(max_length=30, blank=True, null=True)
+    tanggal_lahir = models.DateField(null=True, blank=True)
+    STATUS_CHOICES = (
+        ("lepas", "Lepas"),
+        ("tetap", "Tetap"),
+        ("keluar", "Keluar"),
+    )
+    status_staff = models.CharField(
+        max_length=10,
+        choices=STATUS_CHOICES,
+        default="tetap",
+        blank=True,
+        null=True,
+    )
+    slug = AutoSlugField(populate_from="id")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        if self.gelar:
+            return f"{self.user.get_full_name()}, {self.gelar}"
+        else:
+            return self.user.get_full_name()
+
+    class Meta:
+        verbose_name_plural = "staff"
+
+
 class Siswa(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     nis_siswa = models.CharField(max_length=15, unique=True, default='')
@@ -110,38 +176,35 @@ class Siswa(models.Model):
         verbose_name_plural = "siswa"
 
 
-class Guru(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    gelar = models.CharField(max_length=7, blank=True, null=True, default='S.Pd.')
-    pas_photo = models.ImageField(upload_to="photo-guru", blank=True, null=True)
-    nik = models.CharField(max_length=50, blank=True, null=True)
-    bio = models.TextField(max_length=500, blank=True, null=True)
-    alamat = models.CharField(max_length=30, blank=True, null=True)
-    tanggal_lahir = models.DateField(null=True, blank=True)
+class TagihanSiswa(models.Model):
+    siswa = models.ForeignKey(Siswa, on_delete=models.CASCADE)
+    penerima = models.ForeignKey(Staff, on_delete=models.RESTRICT)
+    keterangan = models.CharField(max_length=255)
+    KATEGORI_CHOICES = (
+        ("spp", "SPP Bulanan"),
+        ("tahunan", "Biaya Tahunan"),
+        ("kegiatan", "Biaya Kegiatan Siswa"),
+        ("buku", "Biaya Buku Siswa"),
+        ("lainnya", "Biaya Lainnya"),
+    )
+    kategori_pembayaran = models.CharField(
+        max_length=25,
+        choices=KATEGORI_CHOICES,
+        default="spp",
+    )
     STATUS_CHOICES = (
-        ("lepas", "Lepas"),
-        ("tetap", "Tetap"),
-        ("keluar", "Keluar"),
+        ("lunas", "Lunas"),
+        ("belum-lunas", "Belum Lunas"),
+        ("belum-dibayar", "Belum Dibayar"),
     )
-    status_guru = models.CharField(
-        max_length=10,
-        choices=STATUS_CHOICES,
-        default="tetap",
-        blank=True,
-        null=True,
+    status_pembayaran = models.CharField(
+        max_length=25,
+        choices=KATEGORI_CHOICES,
+        default="lunas",
     )
-
-    slug = AutoSlugField(populate_from="id")
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        if self.gelar:
-            return f"{self.user.get_full_name()}, {self.gelar}"
-        else:
-            return self.user.get_full_name()
-
-    class Meta:
-        verbose_name_plural = "guru"
+    tanggal_bayar = models.DateTimeField(auto_now_add=True)
+    tanggal_diubah = models.DateTimeField(auto_now=True)
+    tagihan = models.IntegerField(max_digits=10)
 
 
 class Prestasi(models.Model):

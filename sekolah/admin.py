@@ -1,7 +1,18 @@
 from django.contrib import admin
 from django.db.models import Max
 
-from .models import Sekolah, KepalaSekolah, Kelas, WaliKelas, Guru, Siswa, Prestasi, MataPelajaran, NilaiMapel
+from .models import (
+    Sekolah,
+    KepalaSekolah,
+    Kelas,
+    WaliKelas,
+    Guru,
+    Siswa,
+    TagihanSiswa,
+    Prestasi,
+    MataPelajaran,
+    NilaiMapel
+)
 
 
 class SekolahAdmin(admin.ModelAdmin):
@@ -75,6 +86,22 @@ class SiswaAdmin(admin.ModelAdmin):
     def nama(self, obj):
         return obj.user.get_full_name()
 admin.site.register(Siswa, SiswaAdmin)
+
+
+class TagihanSiswaAdmin(admin.ModelAdmin):
+    list_display = (
+        "tanggal_pembayaran",
+        "nama_siswa",
+        "nama_penerima",
+        "kategori_pembayaran",
+        "status_pembayaran",
+        "tagihan",
+    )
+    def nama_siswa(self, obj):
+        return obj.siswa.user.get_full_name()
+    def nama_penerima(self, obj):
+        return obj.penerima.user.get_full_name()
+admin.site.register(TagihanSiswa, TagihanSiswaAdmin)
 
 
 class PrestasiAdmin(admin.ModelAdmin):

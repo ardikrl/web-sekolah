@@ -18,8 +18,20 @@ from .forms import (
     NilaiMapelForm,
     PrestasiForm,
     SiswaForm,
+    TagihanSiswaForm,
 )
-from .models import Guru, Kelas, WaliKelas, MataPelajaran, NilaiMapel, Prestasi, Siswa, TahunPelajaran
+
+from .models import (
+    Guru,
+    Kelas,
+    WaliKelas,
+    MataPelajaran,
+    NilaiMapel,
+    Prestasi,
+    Siswa,
+    TagihanSiswa,
+    TahunPelajaran,
+)
 
 
 @login_required
@@ -137,6 +149,69 @@ def admin_siswa_hapus(request, siswa_id):
         siswa_user.delete()
         siswa.delete()
     return redirect("admin_siswa")
+
+
+# tagihan siswa
+@login_required
+def admin_tagihan(request):
+    data = {}
+    list_tagihan = TagihanSiswa.objects.all()
+    if request.GET.get('filter'):
+        list_tagihan = TagihanSiswa.objects.filter(status_pembayaran=request.GET.get('filter'))
+    data["list_tagihan"] = list_tagihan.order_by("-tanggal_bayar")
+
+    return render(request, "sekolah/web-admin/admin-tagihan.html", data)
+
+
+@login_required
+def admin_tagihan_add(request):
+    data = {}
+    if request.method == "POST":
+        form = TagihanSiswaForm(request.POST)
+        if form.is_valid():
+            tagihan = TagihanSiswa.objects.create(
+                siswa=form.cleaned_data["siswa"],
+                penerima=form.cleaned_data["penerima"],
+                keterangan=form.cleaned_data["keterangan"],
+                kategori_pembayaran=form.cleaned_data["kategori_pembayaran"],
+                status_pembayaran=form.cleaned_data["status_pembayaran"],
+                tanggal_bayar=form.cleaned_data["tanggal_bayar"],
+                tagihan=form.cleaned_data["tagihan"],
+            )
+
+        return redirect("admin_tagihan")
+    data["form"] = TagihanSiswaForm()
+    return render(request, "sekolah/web-admin/admin-tagihan-add.html", data)
+
+
+@login_required
+def admin_tagihan_detail(request, tagihan_id):
+    data = {}
+    data["tagihan"] = TagihanSiswa.objects.get(pk=tagihan_id)
+    return render(request, "sekolah/web-admin/admin-tagihan-detail.html", data)
+
+
+@login_required
+def admin_tagihan_update(request, tagihan_id):
+    data = {}
+    tagihan = TagihanSiswa.objects.get(pk=tagihan_id)
+    data["tagihan"] = tagihan
+    data["form"] = TagihanSiswaForm(instance=tagihan)
+    if request.method == "POST":
+        form = TagihanSiswaForm(request.POST or None, instance=tagihan)
+        if form.is_valid():
+            form.save()
+            return redirect("admin_tagihan_detail", tagihan_id=tagihan_id)
+    return render(request, "sekolah/web-admin/admin-tagihan-update.html", data)
+
+
+@login_required
+def admin_tagihan_hapus(request, tagihan_id):
+    data = {}
+    tagihan = TagihanSiswa.objects.get(pk=tagihan_id)
+    if request.POST.get("confirm-delete"):
+        tagihan.delete()
+    return redirect("admin_tagihan")
 
 
 # guru

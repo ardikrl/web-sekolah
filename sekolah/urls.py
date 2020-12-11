@@ -9,6 +9,12 @@ urlpatterns = [
     path("web-admin/siswa/<int:siswa_id>/detail", views.admin_siswa_detail, name="admin_siswa_detail"),
     path("web-admin/siswa/<int:siswa_id>/update", views.admin_siswa_update, name="admin_siswa_update"),
     path("web-admin/siswa/<int:siswa_id>/hapus", views.admin_siswa_hapus, name="admin_siswa_hapus"),
+    # admin tagihan pembayaran
+    path("web-admin/tagihan", views.admin_tagihan, name="admin_tagihan"),
+    path("web-admin/tagihan/add", views.admin_tagihan_add, name="admin_tagihan_add"),
+    path("web-admin/tagihan/<int:tagihan_id>/detail", views.admin_tagihan_detail, name="admin_tagihan_detail"),
+    path("web-admin/tagihan/<int:tagihan_id>/update", views.admin_tagihan_update, name="admin_tagihan_update"),
+    path("web-admin/tagihan/<int:tagihan_id>/hapus", views.admin_tagihan_hapus, name="admin_tagihan_hapus"),
     # admin guru
     path("web-admin/guru", views.admin_guru, name="admin_guru"),
     path("web-admin/guru/add", views.admin_guru_add, name="admin_guru_add"),

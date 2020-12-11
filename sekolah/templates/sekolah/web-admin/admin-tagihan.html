@@ -1,0 +1,54 @@
+{% extends 'blog/web-admin/admin-base.html' %}
+
+{% block admin-content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+    <h1 class="h2">Tagihan Pembayaran Siswa</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group mr-2">
+            <a href="{% url 'admin_tagihan_add' %}" class="btn btn-sm btn-primary">Tambah Tagihan</a>
+        </div>
+    </div>
+</div>
+<div class="btn-group dropright mb-2">
+    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+        aria-expanded="false">
+        Filter By
+    </button>
+    <div class="dropdown-menu">
+        <a class="dropdown-item{% if request.GET.filter == None %} active{% endif %}">Semua Tagihan</a>
+        <a class="dropdown-item{% if request.GET.filter == 'lunas' %} active{% endif %}" href="?filter=lunas">Lunas</a>
+        <a class="dropdown-item{% if request.GET.filter == 'belum-lunas' %} active{% endif %}" href="?filter=belum-lunas">Belum Lunas</a>
+        <a class="dropdown-item{% if request.GET.filter == 'belum-dibayar' %} active{% endif %}" href="?filter=belum-dibayar">Belum Dibayar</a>
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>Tanggal Dibayar</th>
+                <th>NIS/NISN</th>
+                <th>Nama Siswa</th>
+                <th>Kelas</th>
+                <th>Kategori</th>
+                <th>Keterangan</th>
+                <th>Penerima</th>
+                <th class="text-right">Tagihan</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tagihan in list_tagihan %}
+            <tr>
+                <td>{{ tagihan.tanggal_dibayar }}</td>
+                <td>123/4567890</td>
+                <td>{{ tagihan.siswa.user.get_full_name }}</td>
+                <td>VII A</td>
+                <td>{{ tagihan.kategori_pembayaran }}</td>
+                <td>{{ tagihan.keterangan }}</td>
+                <td>{{ tagihan.penerima.user.get_full_name }}</td>
+                <td>{{ tagihan.tagihan }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock admin-content %}
