@@ -204,7 +204,7 @@ class TagihanSiswa(models.Model):
     )
     tanggal_bayar = models.DateTimeField(auto_now_add=True)
     tanggal_diubah = models.DateTimeField(auto_now=True)
-    tagihan = models.IntegerField(max_digits=10)
+    tagihan = models.IntegerField()
 
 
 class Prestasi(models.Model):
