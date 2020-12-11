@@ -30,7 +30,7 @@ class GallerySerializer(serializers.ModelSerializer):
     category_name = serializers.CharField(source='category', read_only=True)
 
     class Meta:
-        model = Post
+        model = Gallery
         fields = (
             "author_name",
             "category_name",
