@@ -185,6 +185,7 @@ class TagihanSiswa(models.Model):
         ("tahunan", "Biaya Tahunan"),
         ("kegiatan", "Biaya Kegiatan Siswa"),
         ("buku", "Biaya Buku Siswa"),
+        ("donasi", "Donasi Siswa"),
         ("lainnya", "Biaya Lainnya"),
     )
     kategori_pembayaran = models.CharField(
