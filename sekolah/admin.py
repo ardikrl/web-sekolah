@@ -90,7 +90,7 @@ admin.site.register(Siswa, SiswaAdmin)
 
 class TagihanSiswaAdmin(admin.ModelAdmin):
     list_display = (
-        "tanggal_pembayaran",
+        "tanggal_bayar",
         "nama_siswa",
         "nama_penerima",
         "kategori_pembayaran",
