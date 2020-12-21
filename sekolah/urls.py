@@ -1,6 +1,10 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
 
 from . import views
+
+router = routers.DefaultRouter()
+router.register(r'tagihan', views.TagihanViewSet)
 
 urlpatterns = [
     # admin siswa
@@ -48,4 +52,6 @@ urlpatterns = [
     path("web-admin/mapel/<int:mapel_id>/hapus", views.admin_mapel_hapus, name="admin_mapel_hapus"),
     path("web-admin/mapel/<int:mapel_id>/template", views.admin_mapel_nilai_template, name="admin_mapel_nilai_template"),
     path("web-admin/mapel/<int:mapel_id>/import", views.admin_mapel_nilai_import, name="admin_mapel_nilai_import"),
+    # api urls
+    path('api/', include(router.urls)),
 ]

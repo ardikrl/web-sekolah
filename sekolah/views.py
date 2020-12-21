@@ -10,6 +10,9 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.core.files.storage import FileSystemStorage
 from django.db.models import Q
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import viewsets
+from .serializers import TagihanSiswaSerializer
 
 from .forms import (
     GuruForm,
@@ -626,3 +629,10 @@ def admin_mapel_nilai_template(request, mapel_id):
     response.write(output.getvalue())
 
     return response
+
+
+class TagihanViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = (IsAuthenticated,)
+
+    queryset = TagihanSiswa.objects.all().order_by('-tanggal_tagihan')
+    serializer_class = TagihanSiswaSerializer

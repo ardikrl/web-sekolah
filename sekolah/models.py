@@ -208,9 +208,9 @@ class TagihanSiswa(models.Model):
     )
     tanggal_tagihan = models.DateField()
     tanggal_bayar = models.DateField(null=True, blank=True)
-    tanggal_dibuat = models.DateTimeField(auto_now_add=True)
-    tanggal_diubah = models.DateTimeField(auto_now=True)
     tagihan = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def kategori_verbose(self):
         return dict(TagihanSiswa.KATEGORI_CHOICES)[self.kategori_pembayaran]
