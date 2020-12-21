@@ -12,10 +12,10 @@ SEMESTER_CHOICES = (
 
 
 class TahunPelajaran(models.Model):
-    tahun = models.CharField(max_length=4, default='2020')
+    tahun = models.IntegerField(default=2021)
     def __str__(self):
         try:
-            return f"{self.tahun}/{int(self.tahun)+1}"
+            return f"{self.tahun}/{self.tahun+1}"
         except ValueError:
             return ''
 
@@ -50,7 +50,7 @@ class KepalaSekolah(models.Model):
 
 class Kelas(models.Model):
     nama = models.CharField(max_length=50)
-    tahun_ajaran = models.ForeignKey(TahunPelajaran, default='2020', on_delete=models.CASCADE)
+    tahun_ajaran = models.ForeignKey(TahunPelajaran, default=2021, on_delete=models.CASCADE)
     siswa = models.ManyToManyField("Siswa", related_name="daftar_siswa", blank=True)
     slug = AutoSlugField(populate_from="id")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -169,6 +169,9 @@ class Siswa(models.Model):
     slug = AutoSlugField(populate_from="id")
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def kelas(self):
+        return Kelas.objects.filter(siswa__user=self.user).order_by('-tahun_ajaran')[0]
+
     def __str__(self):
         return self.user.get_full_name()
 
@@ -178,7 +181,7 @@ class Siswa(models.Model):
 
 class TagihanSiswa(models.Model):
     siswa = models.ForeignKey(Siswa, on_delete=models.CASCADE)
-    penerima = models.ForeignKey(Staff, on_delete=models.PROTECT)
+    penerima = models.ForeignKey(Staff, on_delete=models.PROTECT, null=True, blank=True)
     keterangan = models.CharField(max_length=255)
     KATEGORI_CHOICES = (
         ("spp", "SPP Bulanan"),
@@ -201,12 +204,19 @@ class TagihanSiswa(models.Model):
     status_pembayaran = models.CharField(
         max_length=25,
         choices=STATUS_CHOICES,
-        default="lunas",
+        default="belum-dibayar",
     )
-    tanggal_bayar = models.DateField()
+    tanggal_tagihan = models.DateField()
+    tanggal_bayar = models.DateField(null=True, blank=True)
     tanggal_dibuat = models.DateTimeField(auto_now_add=True)
     tanggal_diubah = models.DateTimeField(auto_now=True)
     tagihan = models.IntegerField()
+
+    def kategori_verbose(self):
+        return dict(TagihanSiswa.KATEGORI_CHOICES)[self.kategori_pembayaran]
+
+    def status_verbose(self):
+        return dict(TagihanSiswa.STATUS_CHOICES)[self.status_pembayaran]
 
     def __str__(self):
         return f"{self.kategori_pembayaran}{self.siswa.user.get_full_name()}"

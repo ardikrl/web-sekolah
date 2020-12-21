@@ -22,6 +22,7 @@ from .forms import (
 )
 
 from .models import (
+    Staff,
     Guru,
     Kelas,
     WaliKelas,
@@ -64,12 +65,14 @@ def admin_tahun_ajaran_hapus(request, tahun_id):
 @login_required
 def admin_siswa(request):
     data = {}
-    list_siswa = Siswa.objects.filter(status_siswa = 'aktif')
-    if request.GET.get('filter'):
-        if request.GET.get('filter') == 'aktif':
-            list_siswa = Siswa.objects.filter(Q(status_siswa='tetap') | Q(status_siswa='pindah'))
+    list_siswa = Siswa.objects.filter(status_siswa="tetap")
+    if request.GET.get("filter"):
+        if request.GET.get("filter") == "aktif":
+            list_siswa = Siswa.objects.filter(
+                Q(status_siswa="tetap") | Q(status_siswa="pindah")
+            )
         else:
-            list_siswa = Siswa.objects.filter(status_siswa=request.GET.get('filter'))
+            list_siswa = Siswa.objects.filter(status_siswa=request.GET.get("filter"))
     data["list_siswa"] = list_siswa.order_by("nis_siswa")
 
     return render(request, "sekolah/web-admin/admin-siswa.html", data)
@@ -156,9 +159,11 @@ def admin_siswa_hapus(request, siswa_id):
 def admin_tagihan(request):
     data = {}
     list_tagihan = TagihanSiswa.objects.all()
-    if request.GET.get('filter'):
-        list_tagihan = TagihanSiswa.objects.filter(status_pembayaran=request.GET.get('filter'))
-    data["list_tagihan"] = list_tagihan.order_by("-tanggal_bayar")
+    if request.GET.get("filter"):
+        list_tagihan = TagihanSiswa.objects.filter(
+            status_pembayaran=request.GET.get("filter")
+        )
+    data["list_tagihan"] = list_tagihan.order_by("-tanggal_tagihan")
 
     return render(request, "sekolah/web-admin/admin-tagihan.html", data)
 
@@ -169,7 +174,9 @@ def admin_tagihan_add(request):
     if request.method == "POST":
         form = TagihanSiswaForm(request.POST)
         if form.is_valid():
-            form.save()
+            tagihan = form.save(commit=False)
+            tagihan.penerima = Staff.objects.get(user=request.user)
+            tagihan.save()
 
         return redirect("admin_tagihan")
     data["form"] = TagihanSiswaForm()
@@ -210,9 +217,9 @@ def admin_tagihan_hapus(request, tagihan_id):
 @login_required
 def admin_guru(request):
     data = {}
-    list_guru = Guru.objects.filter(Q(status_guru = 'lepas') | Q(status_guru = 'tetap'))
-    if request.GET.get('filter'):
-        list_guru = Guru.objects.filter(status_guru=request.GET.get('filter'))
+    list_guru = Guru.objects.filter(Q(status_guru="lepas") | Q(status_guru="tetap"))
+    if request.GET.get("filter"):
+        list_guru = Guru.objects.filter(status_guru=request.GET.get("filter"))
     data["list_guru"] = list_guru.order_by("nik")
     return render(request, "sekolah/web-admin/admin-guru.html", data)
 
@@ -227,7 +234,7 @@ def admin_guru_add(request):
             guru_username = int(time.time())
             guru_f_name = request.POST["nama_depan"]
             guru_l_name = request.POST["nama_belakang"]
-            guru_email = "siswa@students.bunayya-school.sch.id"
+            guru_email = f"{guru_username}@teachers.bunayya-school.sch.id"
             user = UserModel.objects.create_user(
                 username=guru_username,
                 email=guru_email,
@@ -501,11 +508,11 @@ def admin_mapel_nilai_import(request, mapel_id):
     data = {}
     mapel = MataPelajaran.objects.get(pk=mapel_id)
     data["mapel"] = MataPelajaran.objects.get(pk=mapel_id)
-    if request.POST and request.FILES['file-nilai']:
-        filehandle = request.FILES.get('file-nilai')
-        # To open Workbook 
-        wb = xlrd.open_workbook(file_contents=filehandle.read(), on_demand = True)
-        sheet = wb.sheet_by_index(0) 
+    if request.POST and request.FILES["file-nilai"]:
+        filehandle = request.FILES.get("file-nilai")
+        # To open Workbook
+        wb = xlrd.open_workbook(file_contents=filehandle.read(), on_demand=True)
+        sheet = wb.sheet_by_index(0)
 
         list_nilai = []
         list_nilai.append(sheet.cell_value(1, 0))
@@ -521,26 +528,26 @@ def admin_mapel_nilai_import(request, mapel_id):
             list_nilai.append(siswa)
         for nilai in list_nilai[1:]:
             mapel = MataPelajaran.objects.get(pk=list_nilai[0])
-            siswa = Siswa.objects.get(pk=nilai['id'])
+            siswa = Siswa.objects.get(pk=nilai["id"])
             try:
                 nilai_obj = NilaiMapel.objects.get(mata_pelajaran=mapel, siswa=siswa)
-                nilai_obj.nilai_angka_1 = nilai['angka1']
-                nilai_obj.nilai_angka_2 = nilai['angka2']
-                nilai_obj.nilai_huruf_1 = nilai['huruf1']
-                nilai_obj.nilai_huruf_2 = nilai['huruf2']
-                nilai_obj.deskripsi_1 = nilai['deskr1']
-                nilai_obj.deskripsi_2 = nilai['deskr2']
+                nilai_obj.nilai_angka_1 = nilai["angka1"]
+                nilai_obj.nilai_angka_2 = nilai["angka2"]
+                nilai_obj.nilai_huruf_1 = nilai["huruf1"]
+                nilai_obj.nilai_huruf_2 = nilai["huruf2"]
+                nilai_obj.deskripsi_1 = nilai["deskr1"]
+                nilai_obj.deskripsi_2 = nilai["deskr2"]
                 nilai_obj.save()
             except NilaiMapel.DoesNotExist:
                 NilaiMapel.objects.create(
                     mata_pelajaran=mapel,
                     siswa=siswa,
-                    nilai_angka_1=nilai['angka1'],
-                    nilai_angka_2=nilai['angka2'],
-                    nilai_huruf_1=nilai['huruf1'],
-                    nilai_huruf_2=nilai['huruf2'],
-                    deskripsi_1=nilai['deskr1'],
-                    deskripsi_2=nilai['deskr2'],
+                    nilai_angka_1=nilai["angka1"],
+                    nilai_angka_2=nilai["angka2"],
+                    nilai_huruf_1=nilai["huruf1"],
+                    nilai_huruf_2=nilai["huruf2"],
+                    deskripsi_1=nilai["deskr1"],
+                    deskripsi_2=nilai["deskr2"],
                 )
         wb.release_resources()
         del wb
@@ -550,23 +557,25 @@ def admin_mapel_nilai_import(request, mapel_id):
 @login_required
 def admin_mapel_nilai_template(request, mapel_id):
     mapel = MataPelajaran.objects.get(pk=mapel_id)
-    nama_mapel = mapel.nama.lower().replace(' ', '-')
+    nama_mapel = mapel.nama.lower().replace(" ", "-")
     kelas = mapel.kelas.nama.split(":")[0].strip()
-    kelas_slug = kelas.replace(' ', '-')
+    kelas_slug = kelas.replace(" ", "-")
     # create our spreadsheet.  I will create it in memory with a StringIO
     output = BytesIO()
     workbook = xlsxwriter.Workbook(output)
     worksheet = workbook.add_worksheet()
-    cell_format = workbook.add_format({'align':'center'})
+    cell_format = workbook.add_format({"align": "center"})
     cell_format.set_bold()
-    cell_center = workbook.add_format({'align':'center'})
-    cell_left = workbook.add_format({'align':'left'})
-    cell_white = workbook.add_format({'font_color': 'white'})
+    cell_center = workbook.add_format({"align": "center"})
+    cell_left = workbook.add_format({"align": "left"})
+    cell_white = workbook.add_format({"font_color": "white"})
     worksheet.set_column(0, 1, 5)
     worksheet.set_column(1, 1, 30)
     worksheet.set_column(5, 5, 50)
     worksheet.set_column(8, 8, 50)
-    worksheet.merge_range('A1:I1', f"Pelajaran: {mapel.nama} {kelas} ({mapel.get_guru()})", cell_format)
+    worksheet.merge_range(
+        "A1:I1", f"Pelajaran: {mapel.nama} {kelas} ({mapel.get_guru()})", cell_format
+    )
     worksheet.write(f"A2", str(mapel.id), cell_white)
     worksheet.write(f"A3", "No", cell_format)
     worksheet.write(f"B3", "Nama Siswa", cell_format)
@@ -577,20 +586,20 @@ def admin_mapel_nilai_template(request, mapel_id):
     worksheet.write(f"G3", "Angka", cell_format)
     worksheet.write(f"H3", "Huruf", cell_format)
     worksheet.write(f"I3", "Deskripsi", cell_format)
-    list_siswa = mapel.nilaimapel_set.all().order_by('-siswa')
+    list_siswa = mapel.nilaimapel_set.all().order_by("-siswa")
     if not list_siswa:
-        list_siswa = mapel.kelas.siswa.all().order_by('-user')
+        list_siswa = mapel.kelas.siswa.all().order_by("-user")
         for idx, siswa in enumerate(list_siswa, start=4):
             worksheet.write(f"A{idx}", f"{siswa.id}", cell_center)
             worksheet.write(f"B{idx}", siswa.user.get_full_name())
             worksheet.write(f"C{idx}", kelas, cell_center)
-            worksheet.write(f"D{idx}", '', cell_center)
-            worksheet.write(f"E{idx}", '', cell_center)
-            worksheet.write(f"F{idx}", '', cell_left)
-            worksheet.write(f"G{idx}", '', cell_center)
-            worksheet.write(f"H{idx}", '', cell_center)
-            worksheet.write(f"I{idx}", '', cell_left)
-            worksheet.write(f"J{idx}", '', cell_left)
+            worksheet.write(f"D{idx}", "", cell_center)
+            worksheet.write(f"E{idx}", "", cell_center)
+            worksheet.write(f"F{idx}", "", cell_left)
+            worksheet.write(f"G{idx}", "", cell_center)
+            worksheet.write(f"H{idx}", "", cell_center)
+            worksheet.write(f"I{idx}", "", cell_left)
+            worksheet.write(f"J{idx}", "", cell_left)
     else:
         for idx, nilai in enumerate(list_siswa, start=4):
             worksheet.write(f"A{idx}", f"{nilai.siswa.id}", cell_center)
@@ -602,14 +611,16 @@ def admin_mapel_nilai_template(request, mapel_id):
             worksheet.write(f"G{idx}", nilai.nilai_angka_2, cell_center)
             worksheet.write(f"H{idx}", nilai.nilai_huruf_2, cell_center)
             worksheet.write(f"I{idx}", nilai.deskripsi_2, cell_left)
-            worksheet.write(f"J{idx}", '', cell_left)
+            worksheet.write(f"J{idx}", "", cell_left)
     workbook.close()
 
     # create a response
     response = HttpResponse(content_type="application/vnd.ms-excel")
 
     # tell the browser what the file is named
-    response["Content-Disposition"] = f'attachment;filename="{nama_mapel}-{kelas_slug.lower()}.xlsx"'
+    response[
+        "Content-Disposition"
+    ] = f'attachment;filename="{nama_mapel}-{kelas_slug.lower()}.xlsx"'
 
     # put the spreadsheet data into the response
     response.write(output.getvalue())

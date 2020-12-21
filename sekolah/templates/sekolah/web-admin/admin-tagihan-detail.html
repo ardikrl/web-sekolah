@@ -27,8 +27,12 @@
                 <td class="text-left">: {{ tagihan.penerima.user.get_full_name }}</td>
             </tr>
             <tr>
+                <td>Tanggal Tagihan</td>
+                <td class="text-left">: {{ tagihan.tanggal_tagihan }}</td>
+            </tr>
+            <tr>
                 <td>Tanggal Pembayaran</td>
-                <td class="text-left">: {{ tagihan.tanggal_bayar }}</td>
+                <td class="text-left">: {% if tagihan.tanggal_bayar %}{{ tagihan.tanggal_bayar }}{% endif %}</td>
             </tr>
             <tr>
                 <td>Tagihan</td>

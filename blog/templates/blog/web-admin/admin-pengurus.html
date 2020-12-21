@@ -45,14 +45,6 @@
                                     <input type="text" name="password" maxlength="15"
                                         class="textinput textInput form-control" required="required" id="id_password">
                                 </div>
-                                <div class="form-group">
-                                    <label for="id_status" class="requiredField">Status Pengurus<span
-                                            class="asteriskField">*</span></label>
-                                    <select name="status_pengurus" class="select form-control" id="id_status">
-                                        <option value="petugas">Petugas</option>
-                                        <option value="santri">Santri</option>
-                                    </select>
-                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
@@ -71,16 +63,14 @@
             <tr>
                 <th>Nama Lengkap</th>
                 <th class="text-center">Username</th>
-                <th class="text-center">Status</th>
                 <th class="text-right">Actions</th>
             </tr>
         </thead>
         <tbody>
             {% for pengurus in list_pengurus %}
             <tr>
-                <td>{% if pengurus.get_full_name %}{{ pengurus.get_full_name }}{% else %}--tidak ada nama--{% endif %}</td>
-                <td class="text-center">{{ pengurus.username }}</td>
-                <td class="text-center">{% if pengurus.is_staff %}Petugas{% else %}Santri{% endif %}</td>
+                <td>{% if pengurus.user.get_full_name %}{{ pengurus.user.get_full_name }}{% else %}--tidak ada nama--{% endif %}</td>
+                <td class="text-center">{{ pengurus.user.username }}</td>
                 <td>
                     <button class="float-right ml-1 btn btn-sm btn-danger" data-toggle="modal" data-target="#deletePengguna{{ pengurus.id }}">Delete</button>
                     <!-- Delete Modal -->
@@ -88,7 +78,8 @@
                         aria-labelledby="deletePengguna{{ pengurus.id }}Title" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content">
-                                <form method="POST" action="">
+                                <form method="POST" action="{% url 'admin_pengurus_hapus' pengurus_id=pengurus.id %}">
+                                    {% csrf_token %}
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="deletePengguna{{ pengurus.id }}LongTitle">Konfirmasi Hapus Pengurus</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -102,8 +93,7 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
                                             data-dismiss="modal">Batal</button>
-                                        <input type="submit" class="btn btn-danger" name="confirm-delete"
-                                            value="Hapus Pengurus">
+                                        <input type="submit" class="btn btn-danger" name="confirm-delete" value="Hapus Pengurus">
                                     </div>
                                 </form>
                             </div>
@@ -125,15 +115,15 @@
                                     <div class="modal-body">
                                         <div class="form-group">
                                             <label for="id_nama_depan" class="requiredField">Nama Depan<span class="asteriskField">*</span></label>
-                                            <input type="text" name="nama_depan" maxlength="15" class="textinput textInput form-control" required="required" id="id_nama_depan" value="{{ pengurus.first_name }}">
+                                            <input type="text" name="nama_depan" maxlength="15" class="textinput textInput form-control" required="required" id="id_nama_depan" value="{{ pengurus.user.first_name }}">
                                         </div>
                                         <div class="form-group">
                                             <label for="id_nama_belakang" class="requiredField">Nama Belakang<span class="asteriskField">*</span></label>
-                                            <input type="text" name="nama_belakang" maxlength="15" class="textinput textInput form-control" required="required" id="id_nama_belakang" value="{{ pengurus.last_name }}">
+                                            <input type="text" name="nama_belakang" maxlength="15" class="textinput textInput form-control" required="required" id="id_nama_belakang" value="{{ pengurus.user.last_name }}">
                                         </div>
                                         <div class="form-group">
                                             <label for="id_username" class="requiredField">Username<span class="asteriskField">*</span></label>
-                                            <input type="text" name="username" maxlength="15" class="textinput textInput form-control" required="required" id="id_username" value="{{ pengurus.username }}">
+                                            <input type="text" name="username" maxlength="15" class="textinput textInput form-control" required="required" id="id_username" value="{{ pengurus.user.username }}">
                                         </div>
                                         <div class="form-group">
                                             <label for="id_password" class="requiredField">Kata Sandi</label>

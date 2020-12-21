@@ -10,7 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from sekolah.models import Prestasi, Siswa
+from sekolah.models import Prestasi, Siswa, Staff
 
 from .forms import (CategoriForm, GalleryForm, HalamanStatisForm, PostForm,
                     PPDBForm)
@@ -348,25 +348,24 @@ def admin_gallery_hapus(request, gallery_id):
 def admin_pengurus(request):
     data = {}
     UserModel = get_user_model()
-    data["list_pengurus"] = UserModel.objects.all()
+    data["list_pengurus"] = Staff.objects.all()
     if request.method == "POST":
         nama_depan = request.POST.get("nama_depan")
         nama_belakang = request.POST.get("nama_belakang")
         username = request.POST.get("username")
         password = request.POST.get("password")
-        status_pengurus = request.POST.get("status_pengurus")
-        try:
-            user = UserModel.objects.get(username=username)
-        except UserModel.DoesNotExist:
-            user = UserModel.objects.create_user(
-                first_name=nama_depan,
-                last_name=nama_belakang,
-                username=username,
-                password=password
-            )
-            if status_pengurus == 'petugas':
-                user.is_staff = True
-                user.save()
+        user = UserModel.objects.create_user(
+            first_name=nama_depan,
+            last_name=nama_belakang,
+            username=username,
+            password=password
+        )
+        Staff.objects.create(
+            user=user
+        )
+        user.is_staff = True
+        user.save()
+
         return redirect("admin_pengurus")
 
     return render(request, "blog/web-admin/admin-pengurus.html", data)
@@ -374,9 +373,8 @@ def admin_pengurus(request):
 
 @login_required
 def admin_pengurus_update(request, pengurus_id):
-    data = {}
-    UserModel = get_user_model()
-    pengurus = UserModel.objects.get(pk=pengurus_id)
+    staff = Staff.objects.get(id=pengurus_id)
+    pengurus = staff.user
     if request.POST.get("confirm-update"):
         pengurus.first_name = request.POST.get("nama_depan")
         pengurus.last_name = request.POST.get("nama_belakang")
@@ -386,6 +384,16 @@ def admin_pengurus_update(request, pengurus_id):
         pengurus.save()
         return HttpResponseRedirect(reverse('admin_pengurus'))
     return render(request, "blog/web-admin/admin-pengurus.html")
+
+
+@login_required
+def admin_pengurus_hapus(request, pengurus_id):
+    UserModel = get_user_model()
+    staff = Staff.objects.get(pk=pengurus_id)
+    pegurus = staff.user
+    if request.POST.get("confirm-delete"):
+        pegurus.delete()
+    return redirect("admin_pengurus")
 
 
 class HelloView(APIView):

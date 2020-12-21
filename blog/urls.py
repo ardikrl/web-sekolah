@@ -35,6 +35,7 @@ urlpatterns = [
     path("web-admin/gallery/<int:gallery_id>/update", views.admin_gallery_update, name="admin_gallery_update"),
     path("web-admin/bank-data/admin-pengurus", views.admin_pengurus, name="admin_pengurus"),
     path("web-admin/bank-data/admin-pengurus/<int:pengurus_id>/update", views.admin_pengurus_update, name="admin_pengurus_update"),
+    path("web-admin/bank-data/admin-pengurus/<int:pengurus_id>/hapus", views.admin_pengurus_hapus, name="admin_pengurus_hapus"),
     # api urls
     path('api/', include(router.urls)),
 ]

@@ -26,12 +26,12 @@
     <table class="table table-sm">
         <thead>
             <tr>
-                <th>Tanggal Dibayar</th>
+                <th>Tanggal Tagihan</th>
                 <th>NIS/NISN</th>
                 <th>Nama Siswa</th>
-                <th>Kelas</th>
                 <th>Kategori</th>
                 <th>Keterangan</th>
+                <th>Status Tagihan</th>
                 <th>Penerima</th>
                 <th></th>
                 <th class="text-right">Tagihan</th>
@@ -40,13 +40,13 @@
         <tbody>
             {% for tagihan in list_tagihan %}
             <tr>
-                <td>{{ tagihan.tanggal_bayar }}</td>
-                <td>123/4567890</td>
+                <td>{{ tagihan.tanggal_tagihan }}</td>
+                <td>{{ tagihan.siswa.nis_siswa }}/{{ tagihan.siswa.nis_siswa }}</td>
                 <td>{{ tagihan.siswa.user.get_full_name }}</td>
-                <td>VII A</td>
-                <td>{{ tagihan.kategori_pembayaran }}</td>
+                <td>{{ tagihan.kategori_verbose }}</td>
                 <td>{{ tagihan.keterangan }}</td>
-                <td>{{ tagihan.penerima.user.get_full_name }}</td>
+                <td>{{ tagihan.status_verbose }}</td>
+                <td>{% if tagihan.penerima %}{{ tagihan.penerima.user.get_full_name }}{% endif %}</td>
                 <td>Rp.</td>
                 <td class="text-right">{{ tagihan.tagihan|intcomma }}</td>
             </tr>
