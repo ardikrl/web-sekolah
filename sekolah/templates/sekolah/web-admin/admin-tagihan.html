@@ -41,7 +41,7 @@
             {% for tagihan in list_tagihan %}
             <tr>
                 <td>{{ tagihan.tanggal_tagihan }}</td>
-                <td>{{ tagihan.siswa.nis_siswa }}/{{ tagihan.siswa.nis_siswa }}</td>
+                <td>{{ tagihan.siswa.nis_siswa }}/{{ tagihan.siswa.nisn_siswa }}</td>
                 <td>{{ tagihan.siswa.user.get_full_name }}</td>
                 <td>{{ tagihan.kategori_verbose }}</td>
                 <td>{{ tagihan.keterangan }}</td>

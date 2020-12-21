@@ -26,7 +26,7 @@ SECRET_KEY = 'xc#(=2khiej(#cm6ryro_hod^jf=kg&lup1wiwp#3egx4mfoo$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*.bunayya-school.sch.id", "www.bunayya-school.sch.id", "putra.bunayya-school.sch.id", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["bunayya-school.sch.id", "www.bunayya-school.sch.id", "localhost", "127.0.0.1"]
 
 
 # Application definition
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'ckeditor',
     'ckeditor_uploader',
     'crispy_forms',
@@ -83,22 +84,17 @@ WSGI_APPLICATION = 'web_sekolah.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'putra',
-#         'USER': 'bic',
-#         'PASSWORD': 'bunayya2020',
-#         'HOST': 'localhost',
-#         'PORT': '',
-#     }
-# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'mybunayya',
+        'USER': 'bic',
+        'PASSWORD': 'bunayya2020',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
