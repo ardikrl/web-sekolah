@@ -50,7 +50,7 @@ class PPDBForm(forms.ModelForm):
     email = forms.EmailField(label='Alamat E-Mail', widget=forms.EmailInput(attrs={'placeholder': 'nama@website.com'}), required=False)
     bio = forms.CharField(widget=CKEditorUploadingWidget(attrs={'cols': 120, 'rows': 30}), required=False)
     nisn_siswa = forms.IntegerField(label='NISN (Nomor Induk Siswa Nasional)', required=False)
-    pas_photo = forms.CharField(label='PAS Photo (3x4)', required=True)
+    pas_photo = forms.ImageField(label='PAS Photo (3x4)', required=True)
     class Meta:
         model = Siswa
         fields = ('nisn_siswa', 'pas_photo', 'nama_orang_tua', 'pekerjaan_orang_tua', 'no_hp', 'email', 'alamat', 'tanggal_lahir', 'asal_sekolah', 'bio')
