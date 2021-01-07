@@ -41,6 +41,7 @@
                 <td class="text-center">{{ mapel.nama }}</td>
                 <td class="text-center">{{ mapel.get_guru }}</td>
                 <td>
+                    {% if isguru == False %}
                     <button class="float-right ml-1 btn btn-sm btn-danger" data-toggle="modal"
                         data-target="#hapusMapel{{ mapel.id }}">Delete</button>
                     <!-- Delete Modal -->
@@ -68,6 +69,7 @@
                     </div>
                     <a href="{% url 'admin_mapel_update' mapel_id=mapel.id %}"
                         class="float-right btn btn-sm btn-success">Edit</a>
+                    {% endif %}
                     <a href="{% url 'admin_mapel_detail' mapel_id=mapel.id %}"
                         class="float-right mr-1 btn btn-sm btn-warning">Lihat
                         Rincian</a>

@@ -235,10 +235,10 @@ def admin_guru_add(request):
         form = GuruForm(request.POST, request.FILES)
         if form.is_valid():
             UserModel = get_user_model()
-            guru_username = int(time.time())
+            guru_username = request.POST["nama_depan"].lower()+'@teachers.bunayya-school.sch.id'
             guru_f_name = request.POST["nama_depan"]
             guru_l_name = request.POST["nama_belakang"]
-            guru_email = f"{guru_username}@teachers.bunayya-school.sch.id"
+            guru_email = guru_username
             user = UserModel.objects.create_user(
                 username=guru_username,
                 email=guru_email,

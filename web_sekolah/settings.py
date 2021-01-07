@@ -74,6 +74,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'sekolah.context_processors.staff_processor',
+                'sekolah.context_processors.guru_processor',
             ],
         },
     },

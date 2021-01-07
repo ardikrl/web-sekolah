@@ -73,17 +73,31 @@
             </tr>
         </thead>
         <tbody>
-            {% for mapel in mapel.nilaimapel_set.all %}
-            <tr>
-                <td class="border">{{ mapel.siswa }}</td>
-                <td class="text-center border">{{ mapel.nilai_angka_1 }}</td>
-                <td class="text-center border">{{ mapel.nilai_huruf_1 }}</td>
-                <td class="text-left border">{{ mapel.deskripsi_1 }}</td>
-                <td class="text-center border">{{ mapel.nilai_angka_2 }}</td>
-                <td class="text-center border">{{ mapel.nilai_huruf_2 }}</td>
-                <td class="text-left border">{{ mapel.deskripsi_2 }}</td>
-            </tr>
-            {% endfor %}
+            {% if mapel.nilaimapel_set.all %}
+                {% for mapel in mapel.nilaimapel_set.all|dictsort:"siswa.user.first_name" %}
+                <tr>
+                    <td class="border">{{ mapel.siswa }}</td>
+                    <td class="text-center border">{{ mapel.nilai_angka_1 }}</td>
+                    <td class="text-center border">{{ mapel.nilai_huruf_1 }}</td>
+                    <td class="text-left border">{{ mapel.deskripsi_1 }}</td>
+                    <td class="text-center border">{{ mapel.nilai_angka_2 }}</td>
+                    <td class="text-center border">{{ mapel.nilai_huruf_2 }}</td>
+                    <td class="text-left border">{{ mapel.deskripsi_2 }}</td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                {% for siswa in mapel.kelas.siswa.all|dictsort:"user.first_name" %}
+                <tr>
+                    <td class="border">{{ siswa.user.get_full_name }}</td>
+                    <td class="text-center border">-</td>
+                    <td class="text-center border">-</td>
+                    <td class="text-center border">-</td>
+                    <td class="text-center border">-</td>
+                    <td class="text-center border">-</td>
+                    <td class="text-center border">-</td>
+                </tr>
+                {% endfor %}
+            {% endif %}
         </tbody>
     </table>
 </div>

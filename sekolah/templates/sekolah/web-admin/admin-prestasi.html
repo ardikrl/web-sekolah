@@ -51,7 +51,7 @@
                     {% endif %}
                     {% if prestasi.pemegang_prestasi_siswa.all %}
                     <ul class="list-group">
-                    <li class="border-0 list-group-item py-0 pl-1 pr-0"><div class="text-info border-bottom">Siswa:</div>
+                    <li class="border-0 list-group-item py-0 pl-1 pr-0"><div class="border-bottom"><strong>Siswa:</strong></div>
                     {% for siswa in prestasi.pemegang_prestasi_siswa.all %}
                     {{ siswa.user.get_full_name }}{% if not forloop.last %},{% endif %}
                     {% endfor %}

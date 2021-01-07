@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
   <meta name="generator" content="Jekyll v4.1.1">
-  <title>Administrator - Bunayya School</title>
+  <title>Dashboard Bunayya School</title>
 
   <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/dashboard/">
 
@@ -65,7 +65,7 @@
             d="M196.77 471.5V154.43h124.15c54.27 0 91 31.64 91 79.1 0 33-24.17 63.72-54.71 69.21v1.76c43.07 5.49 70.75 35.82 70.75 78 0 55.81-40 89-107.45 89zm39.55-180.4h63.28c46.8 0 72.29-18.68 72.29-53 0-31.42-21.53-48.78-60-48.78h-75.57zm78.22 145.46c47.68 0 72.73-19.34 72.73-56s-25.93-55.37-76.46-55.37h-74.49v111.4z">
           </path>
         </svg>
-        <div class="pl-1" style="margin-top: 6px;">Bunayya Administrator</div>
+        <div class="pl-1" style="margin-top: 6px;">Bunayya School</div>
       </div>
     </a>
     <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse"
@@ -90,6 +90,7 @@
       <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
         <div class="sidebar-sticky pt-3">
           {% if typestaff != 'staff-keuangan' %}
+          {% if isguru == False %}
           <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
             <span>Berita & Gallery</span>
           </h6>
@@ -128,57 +129,80 @@
             </li>
           </ul>
           {% endif %}
+          {% endif %}
 
-          {% if request.user.is_staff %}
-            {% if typestaff != 'staff-keuangan' %}
-              <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                <span>Data Sekolah</span>
-              </h6>
-              <ul class="nav flex-column mb-2">
-                <li class="nav-item">
-                  <a class="nav-link text-light {% if '/web-admin/siswa' in request.path %}bg-secondary{% endif %}" href="{% url 'admin_siswa' %}">
-                    <span data-feather="users" style="color:#f77976"></span>
-                    Data Siswa
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link text-light {% if '/web-admin/guru' in request.path %}bg-secondary{% endif %}" href="{% url 'admin_guru' %}">
-                    <span data-feather="users" style="color:#f050ae"></span>
-                    Data Guru
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link text-light {% if '/web-admin/prestasi' in request.path %}bg-secondary{% endif %}" href="{% url 'admin_prestasi' %}">
-                    <span data-feather="award" style="color:#d883ff"></span>
-                    Prestasi Sekolah
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link text-light {% if '/web-admin/mapel' in request.path %}bg-secondary{% endif %}" href="{% url 'admin_mapel' %}">
-                    <span data-feather="book-open" style="color:#0cbcc9"></span>
-                    Mata Pelajaran
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link text-light {% if '/web-admin/bank-data' in request.path %}bg-secondary{% endif %}" href="{% url 'admin_bank_data' %}">
-                    <span data-feather="layers" style="color:#48286b"></span>
-                    BANK Data
-                  </a>
-                </li>
-              </ul>
-            {% else %}
-              <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                <span>Data Keuangan</span>
-              </h6>
-              <ul class="nav flex-column mb-2">
-                <li class="nav-item">
-                  <a class="nav-link text-light {% if '/web-admin/tagihan' in request.path %}bg-secondary{% endif %}" href="{% url 'admin_tagihan' %}">
-                    <span data-feather="layers" style="color:#0be680"></span>
-                    Tagihan Pembayaran
-                  </a>
-                </li>
-              </ul>
-            {% endif %}
+          {% if typestaff == 'staff-admin' %}
+          <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+            <span>Data Sekolah</span>
+          </h6>
+          <ul class="nav flex-column mb-2">
+            <li class="nav-item">
+              <a class="nav-link text-light {% if '/web-admin/siswa' in request.path %}bg-secondary{% endif %}" href="{% url 'admin_siswa' %}">
+                <span data-feather="users" style="color:#f77976"></span>
+                Data Siswa
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light {% if '/web-admin/guru' in request.path %}bg-secondary{% endif %}" href="{% url 'admin_guru' %}">
+                <span data-feather="users" style="color:#f050ae"></span>
+                Data Guru
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light {% if '/web-admin/prestasi' in request.path %}bg-secondary{% endif %}" href="{% url 'admin_prestasi' %}">
+                <span data-feather="award" style="color:#d883ff"></span>
+                Prestasi Sekolah
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light {% if '/web-admin/mapel' in request.path %}bg-secondary{% endif %}" href="{% url 'admin_mapel' %}">
+                <span data-feather="book-open" style="color:#0cbcc9"></span>
+                Mata Pelajaran
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light {% if '/web-admin/bank-data' in request.path %}bg-secondary{% endif %}" href="{% url 'admin_bank_data' %}">
+                <span data-feather="layers" style="color:#48286b"></span>
+                BANK Data
+              </a>
+            </li>
+          </ul>
+          {% elif typestaff == 'staff-keuangan' %}
+          <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+            <span>Dashboard Staff Keuangan</span>
+          </h6>
+          <ul class="nav flex-column mb-2">
+            <li class="nav-item">
+              <a class="nav-link text-light {% if '/web-admin/tagihan' in request.path %}bg-secondary{% endif %}" href="{% url 'admin_tagihan' %}">
+                <span data-feather="layers" style="color:#0be680"></span>
+                Tagihan Pembayaran
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light {% if '/web-admin/tagihan' in request.path %}bg-secondary{% endif %}" href="#">
+                <span data-feather="users" style="color:#0be680"></span>
+                Your Account
+              </a>
+            </li>
+          </ul>
+          {% elif isguru == True %}
+          <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+            <span>Dashboard Guru</span>
+          </h6>
+          <ul class="nav flex-column mb-2">
+            <li class="nav-item">
+              <a class="nav-link text-light {% if '/web-admin/mapel' in request.path %}bg-secondary{% endif %}" href="{% url 'admin_mapel' %}">
+                <span data-feather="book-open" style="color:#0cbcc9"></span>
+                Mata Pelajaran
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light {% if '/web-admin/account' in request.path %}bg-secondary{% endif %}" href="#">
+                <span data-feather="users" style="color:#0be680"></span>
+                Your Account
+              </a>
+            </li>
+          </ul>
           {% endif %}
         </div>
       </nav>
