@@ -166,6 +166,7 @@ def admin_tagihan(request):
         list_tagihan = TagihanSiswa.objects.filter(
             status_pembayaran=request.GET.get("filter")
         )
+    data["total_tagihan"] = sum([bill.tagihan for bill in list_tagihan])
     data["list_tagihan"] = list_tagihan.order_by("-tanggal_tagihan")
 
     return render(request, "sekolah/web-admin/admin-tagihan.html", data)
