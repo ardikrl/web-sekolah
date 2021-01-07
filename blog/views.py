@@ -131,6 +131,13 @@ def admin_logout(request):
 
 @login_required
 def admin_dashboard(request):
+    try:
+        staff_obj = Staff.objects.get(user=request.user)
+        request.session['typestaff'] = staff_obj.type_staff
+    except Staff.DoesNotExist:
+        request.session['typestaff'] = 'tidak-ada'
+    else:
+        request.session['typestaff'] = 'tidak-ada'
     data = {}
     return render(request, "blog/web-admin/admin-base.html", data)
 
@@ -354,6 +361,8 @@ def admin_pengurus(request):
         nama_belakang = request.POST.get("nama_belakang")
         username = request.POST.get("username")
         password = request.POST.get("password")
+        status_staff = request.POST.get("status_staff")
+        type_staff = request.POST.get("type_staff")
         user = UserModel.objects.create_user(
             first_name=nama_depan,
             last_name=nama_belakang,
@@ -361,7 +370,9 @@ def admin_pengurus(request):
             password=password
         )
         Staff.objects.create(
-            user=user
+            user=user,
+            status_staff=status_staff,
+            type_staff=type_staff
         )
         user.is_staff = True
         user.save()
@@ -379,9 +390,12 @@ def admin_pengurus_update(request, pengurus_id):
         pengurus.first_name = request.POST.get("nama_depan")
         pengurus.last_name = request.POST.get("nama_belakang")
         pengurus.username = request.POST.get("username")
+        staff.status_staff = request.POST.get("status_staff")
+        staff.type_staff = request.POST.get("type_staff")
         if request.POST.get("password"):
             pengurus.set_password(request.POST.get("password"))
         pengurus.save()
+        staff.save()
         return HttpResponseRedirect(reverse('admin_pengurus'))
     return render(request, "blog/web-admin/admin-pengurus.html")
 

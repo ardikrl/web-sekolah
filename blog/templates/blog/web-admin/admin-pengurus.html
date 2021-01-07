@@ -45,6 +45,21 @@
                                     <input type="text" name="password" maxlength="15"
                                         class="textinput textInput form-control" required="required" id="id_password">
                                 </div>
+                                <div class="form-group">
+                                    <label for="id_status_staff">Status Staff</label>
+                                    <select name="status_staff" class="select form-control" id="id_status_staff">
+                                        <option value="tetap">Tetap</option>
+                                        <option value="lepas">Lepas</option>
+                                        <option value="keluar">Pindah (Resign)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_type_staff">Type Staff</label>
+                                    <select name="type_staff" class="select form-control" id="id_type_staff">
+                                        <option value="staff-admin">Admin Sekolah / TU</option>
+                                        <option value="staff-keuangan">Bendahara / Staff Keuangan</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
@@ -63,6 +78,8 @@
             <tr>
                 <th>Nama Lengkap</th>
                 <th class="text-center">Username</th>
+                <th class="text-center">Status Staff</th>
+                <th class="text-center">Type Staff</th>
                 <th class="text-right">Actions</th>
             </tr>
         </thead>
@@ -71,6 +88,8 @@
             <tr>
                 <td>{% if pengurus.user.get_full_name %}{{ pengurus.user.get_full_name }}{% else %}--tidak ada nama--{% endif %}</td>
                 <td class="text-center">{{ pengurus.user.username }}</td>
+                <td class="text-center">{% if pengurus.status_staff == 'lepas' %}Tidak Tetap{% elif pengurus.status_staff == 'keluar' %}Resign{% else %}Tetap{% endif %}</td>
+                <td class="text-center">{% if pengurus.type_staff == 'staff-admin' %}TU Sekolah{% else %}Bendahara Sekolah{% endif %}</td>
                 <td>
                     <button class="float-right ml-1 btn btn-sm btn-danger" data-toggle="modal" data-target="#deletePengguna{{ pengurus.id }}">Delete</button>
                     <!-- Delete Modal -->
@@ -128,6 +147,21 @@
                                         <div class="form-group">
                                             <label for="id_password" class="requiredField">Kata Sandi</label>
                                             <input type="text" name="password" maxlength="15" class="textinput textInput form-control" id="id_password" placeholder="Masukkan Password Baru">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="id_status_staff">Status Staff</label>
+                                            <select name="status_staff" class="select form-control" id="id_status_staff">
+                                                <option value="tetap" {% if pengurus.status_staff == 'tetap' %}selected="selected"{% endif %}>Tetap</option>
+                                                <option value="lepas" {% if pengurus.status_staff == 'lepas' %}selected="selected"{% endif %}>Lepas</option>
+                                                <option value="keluar" {% if pengurus.status_staff == 'keluar' %}selected="selected"{% endif %}>Pindah (Resign)</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="id_type_staff">Type Staff</label>
+                                            <select name="type_staff" class="select form-control" id="id_type_staff">
+                                                <option value="staff-admin" {% if pengurus.type_staff == 'staff-admin' %}selected="selected"{% endif %}>Admin Sekolah / TU</option>
+                                                <option value="staff-keuangan" {% if pengurus.type_staff == 'staff-keuangan' %}selected="selected"{% endif %}>Bendahara / Staff Keuangan</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="modal-footer">

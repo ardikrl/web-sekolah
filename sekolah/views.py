@@ -161,7 +161,7 @@ def admin_siswa_hapus(request, siswa_id):
 @login_required
 def admin_tagihan(request):
     data = {}
-    list_tagihan = TagihanSiswa.objects.all()
+    list_tagihan = TagihanSiswa.objects.exclude(status_pembayaran='lunas')
     if request.GET.get("filter"):
         list_tagihan = TagihanSiswa.objects.filter(
             status_pembayaran=request.GET.get("filter")

@@ -16,7 +16,7 @@
         Filter By
     </button>
     <div class="dropdown-menu">
-        <a class="dropdown-item{% if request.GET.filter == None %} active{% endif %}" href="{% url 'admin_tagihan' %}">Semua Tagihan</a>
+        <a class="dropdown-item{% if request.GET.filter == None %} active{% endif %}" href="{% url 'admin_tagihan' %}">Tagihan Aktif</a>
         <a class="dropdown-item{% if request.GET.filter == 'lunas' %} active{% endif %}" href="?filter=lunas">Lunas</a>
         <a class="dropdown-item{% if request.GET.filter == 'belum-lunas' %} active{% endif %}" href="?filter=belum-lunas">Belum Lunas</a>
         <a class="dropdown-item{% if request.GET.filter == 'belum-dibayar' %} active{% endif %}" href="?filter=belum-dibayar">Belum Dibayar</a>
