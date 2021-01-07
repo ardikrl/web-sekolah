@@ -13,6 +13,7 @@ urlpatterns = [
     path("berita/<str:slug>", views.post_detail, name="post_detail"),
     path("page/prestasi", views.page_prestasi, name="page_prestasi"),
     path("page/kontak", views.page_kontak, name="page_kontak"),
+    path("page/gallery", views.page_gallery, name="page_gallery"),
     path("page/ppdb", views.page_ppdb, name="page_ppdb"),
     path("page/<str:slug>", views.page_detail, name="page_detail"),
     path("web-admin/", views.admin_dashboard, name="admin_dashboard"),

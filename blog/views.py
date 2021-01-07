@@ -63,6 +63,12 @@ def page_kontak(request):
     return render(request, "blog/public-view/page-kontak.html", data)
 
 
+def page_gallery(request):
+    data = {}
+    data['galleries'] = Gallery.objects.filter(gallery_status='public')
+    return render(request, "blog/public-view/page-gallery.html", data)
+
+
 def page_ppdb(request):
     data = {}
     if request.method == "POST":

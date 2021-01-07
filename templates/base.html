@@ -124,7 +124,7 @@
                                     </ul>
                                 </li>
                                 <li id="menu-item-112"
-                                    class="{% if '/page/ppdb' == request.path or '/page/ekskul' == request.path %}current-menu-item current_page_item{% endif %} menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-112">
+                                    class="{% if '/page/ppdb' == request.path or '/page/ekskul' == request.path or '/page/gallery' == request.path %}current-menu-item current_page_item{% endif %} menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-112">
                                     <a href="#">Kegiatan Sekolah &nbsp;&nbsp;<i
                                             class="hide-hp fa fa-chevron-circle-down" aria-hidden="true"></i></a>
                                     <ul class="sub-menu">
@@ -134,6 +134,9 @@
                                         <li id="menu-item-195"
                                             class="{% if '/page/ekskul' == request.path %}current-menu-item current_page_item{% endif %} menu-item menu-item-type-post_type menu-item-object-page menu-item-195">
                                             <a href="/page/ekskul">Ekstrakulikuler</a>
+                                        </li>
+                                        <li class="{% if '/page/gallery' == request.path %}current-menu-item current_page_item{% endif %} menu-item menu-item-type-post_type menu-item-object-page menu-item-195">
+                                            <a href="/page/gallery">Gallery Sekolah</a>
                                         </li>
                                     </ul>
                                 </li>
