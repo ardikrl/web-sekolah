@@ -221,8 +221,25 @@ def admin_tagihan_update(request, tagihan_id):
 
 
 @login_required
+def admin_tagihan_lunas(request, tagihan_id):
+    tagihan = TagihanSiswa.objects.get(pk=tagihan_id)
+    if request.POST.get("confirm-lunas"):
+        tagihan.status_pembayaran = 'lunas'
+        tagihan.save()
+    return redirect("admin_tagihan")
+
+
+@login_required
+def admin_tagihan_batal_lunas(request, tagihan_id):
+    tagihan = TagihanSiswa.objects.get(pk=tagihan_id)
+    if request.POST.get("confirm-batal-lunas"):
+        tagihan.status_pembayaran = 'belum-dibayar'
+        tagihan.save()
+    return redirect("admin_tagihan")
+
+
+@login_required
 def admin_tagihan_hapus(request, tagihan_id):
-    data = {}
     tagihan = TagihanSiswa.objects.get(pk=tagihan_id)
     if request.POST.get("confirm-delete"):
         tagihan.delete()

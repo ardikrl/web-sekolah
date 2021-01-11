@@ -36,6 +36,7 @@
                 <th>Penerima</th>
                 <th></th>
                 <th class="text-right">Tagihan</th>
+                <th class="text-right">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -50,6 +51,62 @@
                 <td>{% if tagihan.penerima %}{{ tagihan.penerima.user.get_full_name }}{% endif %}</td>
                 <td>Rp.</td>
                 <td class="text-right">{{ tagihan.tagihan|intcomma }}</td>
+                {% if tagihan.status_pembayaran == 'belum-lunas' or tagihan.status_pembayaran == 'belum-dibayar' %}
+                <td class="text-right">
+                    <button class="float-right btn btn-sm btn-primary" data-toggle="modal"
+                        data-target="#lunasTagihan{{ tagihan.id }}">Sudah Lunas?</button>
+                </td>
+                <!-- Lunas Confirmation Modal -->
+                <div class="modal fade" id="lunasTagihan{{ tagihan.id }}" tabindex="-1" role="dialog"
+                aria-labelledby="lunasTagihan{{ tagihan.id }}Title" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <form method="POST" action="{% url 'admin_tagihan_lunas' tagihan_id=tagihan.id %}">
+                            {% csrf_token %}
+                            <div class="modal-body">
+                                <p class="text-center pb-2 h6">Tagihan Lunas</p>
+                                <hr>
+                                <p>Kamu yakin bahwa tagihan ini telah lunas?</p>
+                                <p><strong>{{ tagihan.siswa.user.get_full_name|title }}: {{ tagihan.tagihan|intcomma }}</strong></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                    data-dismiss="modal">Batal</button>
+                                <input type="submit" class="btn btn-primary" name="confirm-lunas"
+                                    value="Tagihan Lunas">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                {% else %}
+                <td class="text-right">
+                    <button class="float-right btn btn-sm btn-danger" data-toggle="modal"
+                        data-target="#batalLunasTagihan{{ tagihan.id }}">Batalkan Lunas?</button>
+                </td>
+                <!-- Lunas Confirmation Modal -->
+                <div class="modal fade" id="batalLunasTagihan{{ tagihan.id }}" tabindex="-1" role="dialog"
+                aria-labelledby="batalLunasTagihan{{ tagihan.id }}Title" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <form method="POST" action="{% url 'admin_tagihan_batal_lunas' tagihan_id=tagihan.id %}">
+                            {% csrf_token %}
+                            <div class="modal-body">
+                                <p class="text-center pb-2 h6">Batalkan Status Tagihan</p>
+                                <hr>
+                                <p>Kamu yakin status tagihan ini dibatalkan lunas?</p>
+                                <p><strong>{{ tagihan.siswa.user.get_full_name|title }}: {{ tagihan.tagihan|intcomma }}</strong></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                    data-dismiss="modal">Batal</button>
+                                <input type="submit" class="btn btn-danger" name="confirm-batal-lunas"
+                                    value="Batal Lunas">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
             </tr>
             {% endfor %}
         </tbody>

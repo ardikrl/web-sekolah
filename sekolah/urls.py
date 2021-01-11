@@ -17,6 +17,8 @@ urlpatterns = [
     # admin tagihan pembayaran
     path("web-admin/tagihan", views.admin_tagihan, name="admin_tagihan"),
     path("web-admin/tagihan/add", views.admin_tagihan_add, name="admin_tagihan_add"),
+    path("web-admin/tagihan/<int:tagihan_id>/lunas", views.admin_tagihan_lunas, name="admin_tagihan_lunas"),
+    path("web-admin/tagihan/<int:tagihan_id>/batal-lunas", views.admin_tagihan_batal_lunas, name="admin_tagihan_batal_lunas"),
     path("web-admin/tagihan/<int:tagihan_id>/detail", views.admin_tagihan_detail, name="admin_tagihan_detail"),
     path("web-admin/tagihan/<int:tagihan_id>/update", views.admin_tagihan_update, name="admin_tagihan_update"),
     path("web-admin/tagihan/<int:tagihan_id>/hapus", views.admin_tagihan_hapus, name="admin_tagihan_hapus"),
