@@ -89,10 +89,10 @@ def admin_siswa_add(request):
         form = SiswaForm(request.POST, request.FILES)
         if form.is_valid():
             UserModel = get_user_model()
-            siswa_username = int(time.time())
+            siswa_username = request.POST["nama_depan"].lower()+'-'+str(int(time.time()))+"@students.bunayya-school.sch.id"
             siswa_f_name = request.POST["nama_depan"]
             siswa_l_name = request.POST["nama_belakang"]
-            siswa_email = "siswa@students.bunayya-school.sch.id"
+            siswa_email = siswa_username
             user = UserModel.objects.create_user(
                 username=siswa_username,
                 email=siswa_email,
@@ -155,6 +155,18 @@ def admin_siswa_hapus(request, siswa_id):
         siswa_user.delete()
         siswa.delete()
     return redirect("admin_siswa")
+
+
+@login_required
+def admin_siswa_tagihan(request):
+    data = {}
+    list_tagihan = TagihanSiswa.objects.filter(Q(siswa__user=request.user)).filter(Q(status_pembayaran='belum-dibayar') or Q(status_pembayaran='belum-lunas'))
+    if request.GET.get("filter"):
+        list_tagihan = TagihanSiswa.objects.filter(siswa__user=request.user).filter(status_pembayaran=request.GET.get("filter"))
+    data["total_tagihan"] = sum([bill.tagihan for bill in list_tagihan])
+    data["list_tagihan"] = list_tagihan.order_by("-tanggal_tagihan")
+
+    return render(request, "sekolah/web-admin/admin-siswa-tagihan.html", data)
 
 
 # tagihan siswa
@@ -234,8 +246,8 @@ def admin_guru_add(request):
     if request.method == "POST":
         form = GuruForm(request.POST, request.FILES)
         if form.is_valid():
-            UserModel = get_user_model()
-            guru_username = request.POST["nama_depan"].lower()+'@teachers.bunayya-school.sch.id'
+            UserModel = get_user_model/()
+            guru_username = request.POST["nama_depan"].lower()+'-'+str(int(time.time()))+'@teachers.bunayya-school.sch.id'
             guru_f_name = request.POST["nama_depan"]
             guru_l_name = request.POST["nama_belakang"]
             guru_email = guru_username

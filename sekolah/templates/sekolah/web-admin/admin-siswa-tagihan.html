@@ -1,0 +1,53 @@
+{% extends 'blog/web-admin/admin-base.html' %}
+{% load humanize %}
+
+{% block admin-content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+    <h1 class="h2">Tagihan Pembiayaan Sekolah</h1>
+</div>
+<div class="btn-group dropright mb-2">
+    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+        aria-expanded="false">
+        Filter By
+    </button>
+    <div class="dropdown-menu">
+        <a class="dropdown-item{% if request.GET.filter == None %} active{% endif %}" href="{% url 'admin_siswa_tagihan' %}">Tagihan Aktif</a>
+        <a class="dropdown-item{% if request.GET.filter == 'lunas' %} active{% endif %}" href="?filter=lunas">Lunas</a>
+        <a class="dropdown-item{% if request.GET.filter == 'belum-lunas' %} active{% endif %}" href="?filter=belum-lunas">Belum Lunas</a>
+        <a class="dropdown-item{% if request.GET.filter == 'belum-dibayar' %} active{% endif %}" href="?filter=belum-dibayar">Belum Dibayar</a>
+    </div>
+</div>
+<div class="text-right"><span class="h6">Total Tagihan: </span><span class="h4 ml-2">Rp. {{ total_tagihan|intcomma }},-</span></div>
+<div class="table-responsive">
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>Tanggal Tagihan</th>
+                <th>NIS/NISN</th>
+                <th>Nama Siswa</th>
+                <th>Kategori</th>
+                <th>Keterangan</th>
+                <th>Status Tagihan</th>
+                <th>Penerima</th>
+                <th></th>
+                <th class="text-right">Tagihan</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tagihan in list_tagihan %}
+            <tr>
+                <td>{{ tagihan.tanggal_tagihan }}</td>
+                <td>{{ tagihan.siswa.nis_siswa }}/{{ tagihan.siswa.nisn_siswa }}</td>
+                <td>{{ tagihan.siswa.user.get_full_name }}</td>
+                <td>{{ tagihan.kategori_verbose }}</td>
+                <td>{{ tagihan.keterangan }}</td>
+                <td>{{ tagihan.status_verbose }}</td>
+                <td>{% if tagihan.penerima %}{{ tagihan.penerima.user.get_full_name }}{% endif %}</td>
+                <td>Rp.</td>
+                <td class="text-right">{{ tagihan.tagihan|intcomma }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock admin-content %}

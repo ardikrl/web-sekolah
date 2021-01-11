@@ -27,6 +27,7 @@
         <thead>
             <tr>
                 <th>Tahun Pelajaran</th>
+                <th class="text-center">Semester</th>
                 <th class="text-center">Kelas</th>
                 <th class="text-center">Nama Mapel</th>
                 <th class="text-center">Guru Pengampu</th>
@@ -37,6 +38,7 @@
             {% for mapel in list_mapel %}
             <tr>
                 <td>{{ mapel.kelas.tahun_ajaran }}</td>
+                <td class="text-center">{{ mapel.semester|title }}</td>
                 <td class="text-center">{{ mapel.kelas.nama }}</td>
                 <td class="text-center">{{ mapel.nama }}</td>
                 <td class="text-center">{{ mapel.get_guru }}</td>

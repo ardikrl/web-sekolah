@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 
-from .models import Staff, Guru
+from .models import Staff, Guru, Siswa
 
 
 def staff_processor(request):
@@ -27,5 +27,19 @@ def guru_processor(request):
             data["isguru"] = True
         except Guru.DoesNotExist:
             data["isguru"] = False
+
+    return data
+
+
+def siswa_processor(request):
+    UserModel = get_user_model()
+    data = {}
+    path_info = request.META["PATH_INFO"]
+    if ("admin/" in path_info and request.user.is_authenticated):
+        try:
+            siswa = Siswa.objects.get(user=request.user)
+            data["issiswa"] = True
+        except Siswa.DoesNotExist:
+            data["issiswa"] = False
 
     return data

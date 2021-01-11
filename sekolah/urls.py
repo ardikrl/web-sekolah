@@ -9,6 +9,7 @@ router.register(r'tagihan', views.TagihanViewSet)
 urlpatterns = [
     # admin siswa
     path("web-admin/siswa", views.admin_siswa, name="admin_siswa"),
+    path("web-admin/siswa/tagihan", views.admin_siswa_tagihan, name="admin_siswa_tagihan"),
     path("web-admin/siswa/add", views.admin_siswa_add, name="admin_siswa_add"),
     path("web-admin/siswa/<int:siswa_id>/detail", views.admin_siswa_detail, name="admin_siswa_detail"),
     path("web-admin/siswa/<int:siswa_id>/update", views.admin_siswa_update, name="admin_siswa_update"),
