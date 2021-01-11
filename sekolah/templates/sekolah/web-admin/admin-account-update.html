@@ -1,0 +1,41 @@
+{% extends 'blog/web-admin/admin-base.html' %}
+
+{% block admin-content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+    <h1 class="h2 text-center">Update Akun Kamu</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group mr-2">
+            <a href="{% url 'admin_account' %}" class="btn btn-sm btn-primary">Kembali</a>
+        </div>
+    </div>
+</div>
+<div class="mb-5">
+    <form method="POST" action="{% url 'admin_account_update' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_nama_depan">Nama Depan</label>
+            <input type="text" class="form-control" id="id_nama_depan" name="nama_depan" value="{{ request.user.first_name }}" {% if issiswa == True or isguru == True %}readonly{% endif %}>
+            {% if issiswa == True or isguru == True %}
+            <small class="text-muted">* Nama Depan tidak dapat diubah secara mandiri, silakan request ke Staff TU jika Anda ingin mengubahnya.</small>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="id_nama_belakang">Nama Belakang</label>
+            <input type="text" class="form-control" id="id_nama_belakang" name="nama_belakang" value="{{ request.user.last_name }}" {% if issiswa == True or isguru == True %}readonly{% endif %}>
+            {% if issiswa == True or isguru == True %}
+            <small class="text-muted">* Nama Belakang tidak dapat diubah secara mandiri, silakan request ke Staff TU jika Anda ingin mengubahnya.</small>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="id_nama_pengguna">Nama Pengguna</label>
+            <input type="text" class="form-control" id="id_nama_pengguna" value="{{ request.user.username }}" readonly>
+            <small class="text-muted">* Nama Pengguna tidak dapat diubah secara mandiri, silakan request ke Staff TU jika Anda ingin mengubahnya.</small>
+        </div>
+        <div class="form-group">
+            <label for="id_kata_sandi">Password</label>
+            <input type="text" class="form-control" id="id_kata_sandi" name="kata_sandi">
+        </div>
+        <input class="btn btn-primary" name="update-account" type="submit" value="Update Account" />
+    </form>
+</div>
+{% endblock admin-content %}

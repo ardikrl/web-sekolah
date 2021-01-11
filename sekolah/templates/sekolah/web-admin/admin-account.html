@@ -1,0 +1,32 @@
+{% extends 'blog/web-admin/admin-base.html' %}
+
+{% block admin-content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+    <h1 class="h2 text-center">Data Akun Kamu</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group mr-2">
+            <a href="{% url 'admin_account_update' %}" class="btn btn-sm btn-primary">Update Data</a>
+        </div>
+    </div>
+</div>
+<div>
+    <table class="table table-sm table-hover">
+        <thead>
+            <tr>
+                <th style="width: 30%"></th>
+                <th style="width: 70%">&nbsp;&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Nama Lengkap</td>
+                <td class="text-left">: {{ request.user.get_full_name }}</td>
+            </tr>
+            <tr>
+                <td>Username</td>
+                <td class="text-left">: {{ request.user.username }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock admin-content %}

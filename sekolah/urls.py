@@ -7,6 +7,9 @@ router = routers.DefaultRouter()
 router.register(r'tagihan', views.TagihanViewSet)
 
 urlpatterns = [
+    # admin account
+    path("web-admin/account", views.admin_account, name="admin_account"),
+    path("web-admin/account/update", views.admin_account_update, name="admin_account_update"),
     # admin siswa
     path("web-admin/siswa", views.admin_siswa, name="admin_siswa"),
     path("web-admin/siswa/tagihan", views.admin_siswa_tagihan, name="admin_siswa_tagihan"),

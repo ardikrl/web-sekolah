@@ -39,6 +39,25 @@ from .models import (
 
 
 @login_required
+def admin_account(request):
+    return render(request, "sekolah/web-admin/admin-account.html", {})
+
+
+@login_required
+def admin_account_update(request):
+    data = {}
+    user = request.user
+    if request.POST.get("update-account"):
+        user.first_name = request.POST["nama_depan"]
+        user.last_name = request.POST["nama_belakang"]
+        if request.POST["kata_sandi"]:
+            user.set_password(request.POST.get("kata_sandi"))
+        user.save()
+        return redirect("admin_account")
+    return render(request, "sekolah/web-admin/admin-account-update.html", data)
+
+
+@login_required
 def admin_tahun_ajaran(request):
     data = {}
     data["list_tahun"] = TahunPelajaran.objects.all().order_by("-tahun")
